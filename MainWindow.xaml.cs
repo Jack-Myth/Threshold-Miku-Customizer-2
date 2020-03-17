@@ -39,8 +39,7 @@ namespace Threshold_Miku_Customizer_2
             { "MusicPlayerImg","MusicPlayer"},
             { "OverlayBG","Overlay"},
             { "SettingsDialog","Settings"},
-            { "SystemInfo","SystemInfo"},
-            { "UseOffline","UseOffline"}
+            { "SystemInfo","SystemInfo"}
         };
 
         private Dictionary<string, string> TGAImageReplaceList = new Dictionary<string, string>();
@@ -82,6 +81,11 @@ namespace Threshold_Miku_Customizer_2
         private void ImgSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string CurTGAName = (string)this.ImgSelector.SelectedItem;
+            if (!File.Exists(string.Format(".\\Previews\\{0}.jpg", TGAImageList[CurTGAName])))
+            {
+                this.PreviewImg.Source = new BitmapImage();
+                return;
+            }
             var PreviewBitmap= new BitmapImage(new Uri(System.IO.Path.GetFullPath(string.Format(".\\Previews\\{0}.jpg", TGAImageList[CurTGAName]))));
             //this.PreviewImg.Height = PreviewImg.Width * PreviewBitmap.Height / PreviewBitmap.Width;
             this.PreviewImg.Source = PreviewBitmap;
@@ -89,6 +93,8 @@ namespace Threshold_Miku_Customizer_2
                 this.ReplacedByLabel.Content = string.Format("Will be replaced by:{0}", System.IO.Path.GetFileName(TGAImageReplaceList[CurTGAName]));
             else if (System.IO.File.Exists(string.Format(".\\graphics\\JackMyth\\{0}.tmc2.bak", CurTGAName)))
                 this.ReplacedByLabel.Content = "This background has been replaced";
+            else
+                this.ReplacedByLabel.Content = "";
             this.NewBackground.IsEnabled = true;
         }
 
@@ -108,7 +114,7 @@ namespace Threshold_Miku_Customizer_2
             foreach(KeyValuePair<string,string> TGAReplaceItem in TGAImageReplaceList)
             {
                 string TGAPartPath= string.Format(".\\graphics\\JackMyth\\{0}", TGAReplaceItem.Key);
-                if(!System.IO.File.Exists(string.Format("{0}.tmc2.bak",TGAPartPath)))
+                if(!System.IO.File.Exists(string.Format("{0}.tmc2.bak",TGAPartPath))&&File.Exists(string.Format("{0}.tga", TGAPartPath)))
                     System.IO.File.Copy(string.Format("{0}.tga", TGAPartPath), string.Format("{0}.tmc2.bak", TGAPartPath));
                 var m_TGA = new ImageTGA();
                 m_TGA.Image = new System.Drawing.Bitmap(TGAReplaceItem.Value);
@@ -264,6 +270,8 @@ namespace Threshold_Miku_Customizer_2
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("Reset To Default?", "TMC2", MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
+                return;
             //Reset All Images
             //Image
             foreach (string TGAItem in TGAImageList.Keys)

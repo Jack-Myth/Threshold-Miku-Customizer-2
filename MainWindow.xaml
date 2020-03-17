@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Threshold_Miku_Customizer_2"
         mc:Ignorable="d"
-        Title="Threshold Miku Customizer 2" Height="443.024" Width="320" WindowStyle="ToolWindow" ResizeMode="NoResize">
+        Title="Threshold Miku Customizer 2" Height="443.024" Width="320" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico">
     <Grid>
-        <StackPanel Margin="27,10,27,172.5" Orientation="Vertical" Grid.ColumnSpan="2">
-            <Image x:Name="PreviewImg" Height="175" VerticalAlignment="Top" Width="260" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left"/>
+        <StackPanel Margin="27,10,27,166" Orientation="Vertical">
+            <Image x:Name="PreviewImg" Height="175" VerticalAlignment="Top" Width="260" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center"/>
             <ComboBox x:Name="ImgSelector" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="ImgSelector_SelectionChanged"/>
-            <Label x:Name="ReplacedByLabel" Content="Check to select a image"/>
+            <Label x:Name="ReplacedByLabel" Content="Click to select a image" Height="32"/>
         </StackPanel>
         <Button x:Name="NewBackground" Content="New Background" HorizontalAlignment="Center" Margin="61,254,61,0" VerticalAlignment="Top" Width="192" Click="NewBackground_Click" Grid.ColumnSpan="2" IsEnabled="False"/>
         <GroupBox Header="Customization" HorizontalAlignment="Left" Margin="10,278,0,54" Width="294" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
