@@ -63,10 +63,6 @@ namespace Threshold_Miku_Customizer_2
                 if (System.IO.Directory.Exists(".\\Customization\\Backup\\Collapsed Sidebar"))
                     this.CollapsedSideBar.IsChecked = true;
             }
-            if (!System.IO.Directory.Exists(".\\Customization\\WebPage without URL"))
-                ((ComboBoxItem)this.WebPageStyle.Items[1]).IsEnabled = false;
-            if (!System.IO.Directory.Exists(".\\Customization\\Origin WebPage"))
-                ((ComboBoxItem)this.WebPageStyle.Items[2]).IsEnabled = false;
             if (System.IO.File.Exists(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg"))
             {
                 string SelectIndex = System.IO.File.ReadAllText(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg");
@@ -137,25 +133,41 @@ namespace Threshold_Miku_Customizer_2
             }
 
             //WebPage Style
-            switch(WebPageStyle.SelectedIndex)
+            if (System.IO.Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
+            {
+                File.Delete(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg");
+                CopyDirectory(".\\Customization\\Backup\\WebPageStyle", ".\\");
+                Directory.Delete(".\\Customization\\Backup\\WebPageStyle", true);
+            }
+            Directory.CreateDirectory(".\\Customization\\Backup\\WebPageStyle\\resource");
+            File.Copy(".\\resource\\webkit.css", ".\\Customization\\Backup\\WebPageStyle\\resource\\webkit.css");
+            switch (WebPageStyle.SelectedIndex)
             {
                 case 0:
-                    if (System.IO.Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
-                    {
-                        File.Delete(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg");
-                        CopyDirectory(".\\Customization\\Backup\\WebPageStyle", ".\\");
-                        Directory.Delete(".\\Customization\\Backup\\WebPageStyle", true);
-                    }
+                    ReplaceByMark(".\\resource\\webkit.css", "BackgroundPos",
+                        string.Format("background-position: {0}px -81px;", (CollapsedSideBar.IsChecked == true ? -48 : -240).ToString()));
+                    ReplaceByMark(".\\resource\\webkit.css", "BackgroundSize",
+                        string.Format("background-size: calc(100vw + {0}px) calc(100vh + 130px);", (CollapsedSideBar.IsChecked == true ? 48 : 240).ToString()));
                     break;
                 case 1:
-                    BackupReplaceingFiles(".\\Customization\\WebPage without URL", ".\\Customization\\Backup\\WebPageStyle");
+                    ReplaceByMark(".\\resource\\webkit.css", "BackgroundPos", 
+                        string.Format("background-position: {0}px -31px;",(CollapsedSideBar.IsChecked == true ? -48 : -240).ToString()));
+                    ReplaceByMark(".\\resource\\webkit.css", "BackgroundSize",
+                        string.Format("background-size: calc(100vw + {0}px) calc(100vh + 80px);", (CollapsedSideBar.IsChecked == true ? 48 : 240).ToString()));
                     File.WriteAllText(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg", "1");
                     break;
                 case 2:
-                    BackupReplaceingFiles(".\\Customization\\Origin WebPage", ".\\Customization\\Backup\\WebPageStyle");
-                    File.WriteAllText(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg", "1");
+                    ReplaceByMark(".\\resource\\webkit.css", "WebPageStyle", "\n");
+                    File.WriteAllText(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg", "2");
                     break;
             }
+
+            //Blur and Brightness
+            ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "GameListBlur", 
+                string.Format("filter: blur({0}px);",this.GameListBlur.Value.ToString()));
+            ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "MainContent",
+                string.Format("filter: blur({0}px) brightness({1}%);", this.MainContentBlur.Value.ToString(), this.MainContentBrightness.Value.ToString()));
+
 
             //Special Image
             if (TGAImageReplaceList.Keys.Contains(MainBG))
@@ -186,6 +198,7 @@ namespace Threshold_Miku_Customizer_2
                     byte[] ImgBytes = File.ReadAllBytes(TGAImageReplaceList[MainBG]);
                     Base64Img = "background:url(data:image/jpeg;base64," + Convert.ToBase64String(ImgBytes) + ");";
                     ReplaceByMark(".\\resource\\webkit.css", "Background", Base64Img);
+
                 }
                 catch (Exception) { }
             }
@@ -295,6 +308,9 @@ namespace Threshold_Miku_Customizer_2
             TGAImageReplaceList.Clear();
             this.CollapsedSideBar.IsChecked = false;
             this.WebPageStyle.SelectedIndex = 0;
+            this.GameListBlur.Value = 5;
+            this.MainContentBlur.Value = 10;
+            this.MainContentBrightness.Value = 60;
             ApplyButton_Click(null, null);
         }
     }
