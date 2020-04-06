@@ -171,12 +171,12 @@ namespace Threshold_Miku_Customizer_2
             //Show LWD
             if(this.ShowLWD.IsChecked==true)
             {
-                ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "GameListBlur",
+                ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "LWD",
                     "\r\n\tbox-shadow: 1px 0px 6px 1px #000000;\r\n\tbackground-color: #17191bFF!important;\r\n\t");
             }
             else
             {
-                ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "GameListBlur","\r\n\t");
+                ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "LWD","\r\n\t");
             }
 
             //Special Image
