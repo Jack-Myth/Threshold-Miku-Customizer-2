@@ -31,7 +31,7 @@
                 </GroupBox>
                 <Label Content="MainContentBrightness:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="153" Margin="10,134,0,0"/>
                 <Slider x:Name="MainContentBrightness" Margin="163,139,10,0" VerticalAlignment="Top" Value="60" SmallChange="1" Maximum="100"/>
-                <CheckBox x:Name="ShowLWD" Content="Show Library Window Divider" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" IsChecked="True" Checked="ShowLWD_Checked"/>
+                <CheckBox x:Name="ShowLWD" Content="Show Library Window Divider" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" IsChecked="True"/>
             </Grid>
         </GroupBox>
         <Button x:Name="ApplyButton" Content="Apply" Margin="10,0,76,10" VerticalAlignment="Bottom" Width="228" VerticalContentAlignment="Bottom" Grid.ColumnSpan="2" Click="ApplyButton_Click"/>
