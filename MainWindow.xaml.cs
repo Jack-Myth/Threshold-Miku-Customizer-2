@@ -162,6 +162,15 @@ namespace Threshold_Miku_Customizer_2
                     break;
             }
 
+            //SteamUI Style
+            if (System.IO.Directory.Exists(".\\Customization\\Backup\\SteamUI"))
+            {
+                CopyDirectory(".\\Customization\\Backup\\SteamUI", ".\\");
+                Directory.Delete(".\\Customization\\Backup\\SteamUI", true);
+            }
+            Directory.CreateDirectory(".\\Customization\\Backup\\SteamUI\\steamui\\skins\\Threshold Miku");
+            File.Copy(".\\steamui\\skins\\Threshold Miku\\main.css", ".\\Customization\\Backup\\SteamUI\\steamui\\skins\\Threshold Miku\\main.css");
+
             //Blur and Brightness
             ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "GameListBlur", 
                 string.Format("filter: blur({0}px);",this.GameListBlur.Value.ToString()));
@@ -176,7 +185,13 @@ namespace Threshold_Miku_Customizer_2
             }
             else
             {
-                ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "LWD","\r\n\t");
+                ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "LWD", 
+                    "\r\n\tbackground-color: #17191b00!important;\r\n\t");
+            }
+
+            if(this.TransparentDetail.IsChecked==false)
+            {
+                ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "TransparentContent", "\r\n");
             }
 
             //Special Image
@@ -322,6 +337,7 @@ namespace Threshold_Miku_Customizer_2
             this.MainContentBlur.Value = 10;
             this.MainContentBrightness.Value = 60;
             this.ShowLWD.IsChecked = true;
+            this.TransparentDetail.IsChecked = true;
             ApplyButton_Click(null, null);
         }
     }
