@@ -194,6 +194,23 @@ namespace Threshold_Miku_Customizer_2
                 ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "TransparentContent", "\r\n");
             }
 
+            if(this.CollapsedSideBar.IsChecked==true)
+            {
+                for(int i=0;i<3;i++)
+                {
+                    ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "CSide"+i.ToString(),
+                        "\r\n\tbackground-position: -48px -31px;\r\n\tbackground-size: calc(100% + 48px) calc(100% + 80px);\r\n\t");
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "CSide" + i.ToString(),
+                        "\r\n\tbackground-position: -240px -31px;\r\n\tbackground-size: calc(100% + 240px) calc(100% + 80px);\r\n\t");
+                }
+            }
+
             //Special Image
             if (TGAImageReplaceList.Keys.Contains(MainBG))
             {
