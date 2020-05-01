@@ -162,43 +162,34 @@ namespace Threshold_Miku_Customizer_2
                     break;
             }
 
-            //SteamUI Style
-            if (System.IO.Directory.Exists(".\\Customization\\Backup\\SteamUI"))
-            {
-                CopyDirectory(".\\Customization\\Backup\\SteamUI", ".\\");
-                Directory.Delete(".\\Customization\\Backup\\SteamUI", true);
-            }
-            Directory.CreateDirectory(".\\Customization\\Backup\\SteamUI\\steamui\\skins\\Threshold Miku");
-            File.Copy(".\\steamui\\skins\\Threshold Miku\\main.css", ".\\Customization\\Backup\\SteamUI\\steamui\\skins\\Threshold Miku\\main.css");
-
             //Blur and Brightness
-            ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "GameListBlur", 
+            ReplaceByMark(".\\resource\\webkit.css", "GameListBlur", 
                 string.Format("filter: blur({0}px);",this.GameListBlur.Value.ToString()));
-            ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "MainContent",
+            ReplaceByMark(".\\resource\\webkit.css", "MainContent",
                 string.Format("filter: blur({0}px) brightness({1}%);", this.MainContentBlur.Value.ToString(), this.MainContentBrightness.Value.ToString()));
 
             //Show LWD
             if(this.ShowLWD.IsChecked==true)
             {
-                ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "LWD",
+                ReplaceByMark(".\\resource\\webkit.css", "LWD",
                     "\r\n\tbox-shadow: 1px 0px 6px 1px #000000;\r\n\tbackground-color: #17191bFF!important;\r\n\t");
             }
             else
             {
-                ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "LWD", 
+                ReplaceByMark(".\\resource\\webkit.css", "LWD", 
                     "\r\n\tbackground-color: #17191b00!important;\r\n\t");
             }
 
             if(this.TransparentDetail.IsChecked==false)
             {
-                ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "TransparentContent", "\r\n");
+                ReplaceByMark(".\\resource\\webkit.css", "TransparentContent", "\r\n");
             }
 
             if(this.CollapsedSideBar.IsChecked==true)
             {
                 for(int i=0;i<3;i++)
                 {
-                    ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "CSide"+i.ToString(),
+                    ReplaceByMark(".\\resource\\webkit.css", "CSide"+i.ToString(),
                         "\r\n\tbackground-position: -48px -31px;\r\n\tbackground-size: calc(100% + 48px) calc(100% + 80px);\r\n\t");
                 }
             }
@@ -206,7 +197,7 @@ namespace Threshold_Miku_Customizer_2
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    ReplaceByMark(".\\steamui\\skins\\Threshold Miku\\main.css", "CSide" + i.ToString(),
+                    ReplaceByMark(".\\resource\\webkit.css", "CSide" + i.ToString(),
                         "\r\n\tbackground-position: -240px -31px;\r\n\tbackground-size: calc(100% + 240px) calc(100% + 80px);\r\n\t");
                 }
             }
@@ -214,12 +205,6 @@ namespace Threshold_Miku_Customizer_2
             //Special Image
             if (TGAImageReplaceList.Keys.Contains(MainBG))
             {
-                //SteamUI
-                string preSteamUIBG = ".\\steamui\\skins\\Threshold Miku\\images\\MainBG";
-                if (!File.Exists(preSteamUIBG + ".tmc2.bak"))
-                    File.Copy(preSteamUIBG + ".jpg", preSteamUIBG + ".tmc2.bak");
-                File.Copy(TGAImageReplaceList[MainBG], preSteamUIBG + ".jpg", true);
-
                 //Webkit Base64
                 //Backup First
                 if (!Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
@@ -245,16 +230,6 @@ namespace Threshold_Miku_Customizer_2
                 catch (Exception) { }
             }
 
-            //Call Install.cmd
-            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
-            psi.FileName = ".\\Install.cmd";
-            psi.Arguments = "CalledByCustomizer";
-            if (this.CreateShortcut.IsChecked != true)
-                psi.Arguments += " WithoutShortcut";
-            psi.UseShellExecute = false;
-            psi.CreateNoWindow = true;
-            System.Diagnostics.Process p = System.Diagnostics.Process.Start(psi);
-            p.WaitForExit();
             MessageBox.Show("Apply Succeed! Restart Steam to take effect");
         }
 
@@ -339,14 +314,6 @@ namespace Threshold_Miku_Customizer_2
                 }
             }
 
-            //Special Image
-            //SteamUI
-            string preSteamUIBG = ".\\steamui\\skins\\Threshold Miku\\images\\MainBG";
-            if (File.Exists(preSteamUIBG + ".tmc2.bak"))
-            {
-                File.Delete(preSteamUIBG + ".jpg");
-                File.Move(preSteamUIBG + ".tmc2.bak", preSteamUIBG + ".jpg");
-            }
             TGAImageReplaceList.Clear();
             this.CollapsedSideBar.IsChecked = false;
             this.WebPageStyle.SelectedIndex = 0;
