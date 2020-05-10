@@ -229,6 +229,14 @@ namespace Threshold_Miku_Customizer_2
                 }
                 catch (Exception) { }
             }
+            //MusicPlayerPanel
+            {
+                var m_TGA = new ImageTGA(".\\graphics\\JackMyth\\MusicPlayerImg.tga",true);
+                ReplaceByMark(".\\resource\\layout\\musicplayerpanel.layout", "MusicPlayerLayout",
+                    String.Format("\r\n\t\t\t\t1=\"image(x1-{0},y1-{1},x1,y1-76,graphics/JackMyth/MusicPlayerImg)\"\r\n\t\t\t\t",
+                        m_TGA.Image.Width, m_TGA.Image.Height+76),
+                    "//", "");
+            }
 
             MessageBox.Show("Apply Succeed! Restart Steam to take effect");
         }

@@ -17,11 +17,11 @@ namespace Threshold_Miku_Customizer_2
 
         }
 
-        public ImageTGA(string p_FileFullName)
+        public ImageTGA(string p_FileFullName,bool InfoOnly=false)
         {
             if (System.IO.File.Exists(p_FileFullName))
             {
-                LoadData(File.ReadAllBytes(p_FileFullName));
+                LoadData(File.ReadAllBytes(p_FileFullName),InfoOnly);
             }
         }
 
@@ -132,7 +132,7 @@ namespace Threshold_Miku_Customizer_2
         /// 获取数据  
         /// </summary>  
         /// <param name="p_TGABytes"></param>  
-        private void LoadData(byte[] p_TGABytes)
+        private void LoadData(byte[] p_TGABytes,bool InfoOnly=false)
         {
             m_IDSize = p_TGABytes[0];
             m_ColorTableType = p_TGABytes[1];
@@ -147,7 +147,10 @@ namespace Threshold_Miku_Customizer_2
             m_PixSize = p_TGABytes[16];
             m_Remark = p_TGABytes[17];
             m_ReadIndex = 18;
-            LoadImage(p_TGABytes);
+            if (InfoOnly!=true)
+                LoadImage(p_TGABytes);
+            else
+                m_Image = new Bitmap(m_ImageWidth, m_ImageHeight);
         }
 
         private void LoadImage(byte[] p_TAGBytes)
