@@ -238,6 +238,15 @@ namespace Threshold_Miku_Customizer_2
                     "//", "");
             }
 
+            //Webpage Brightness
+            try  //Maybe no background
+            {
+                string X16Value = Convert.ToString((int)(255-this.WebPageBrightness.Value), 16);
+                string Cnt = "background:linear-gradient(to right,#00000000 0%,#000000" + X16Value + " 2%);";
+                ReplaceByMark(".\\resource\\webkit.css", "WebBGBrightness", Cnt);
+            }
+            catch (Exception) { }
+
             MessageBox.Show("Apply Succeed! Restart Steam to take effect");
         }
 
@@ -330,6 +339,7 @@ namespace Threshold_Miku_Customizer_2
             this.MainContentBrightness.Value = 60;
             this.ShowLWD.IsChecked = true;
             this.TransparentDetail.IsChecked = true;
+            this.WebPageBrightness.Value = 153;
             ApplyButton_Click(null, null);
         }
     }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Threshold_Miku_Customizer_2"
         mc:Ignorable="d"
-        Title="Threshold Miku Customizer 2" Height="571.529" Width="320" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico">
+        Title="Threshold Miku Customizer 2" Height="592.529" Width="320" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico">
     <Grid>
         <StackPanel Margin="27,10,27,166" Orientation="Vertical">
             <Image x:Name="PreviewImg" Height="175" VerticalAlignment="Top" Width="260" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center"/>
@@ -31,8 +31,10 @@
                 </GroupBox>
                 <Label Content="MainContentBrightness:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="153" Margin="10,134,0,0"/>
                 <Slider x:Name="MainContentBrightness" Margin="163,139,10,0" VerticalAlignment="Top" Value="60" SmallChange="1" Maximum="100"/>
-                <CheckBox x:Name="ShowLWD" Content="Show Library Window Divider" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" IsChecked="True"/>
-                <CheckBox x:Name="TransparentDetail" Content="Transparent Game Details Background" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                <CheckBox x:Name="ShowLWD" Content="Show Library Window Divider" HorizontalAlignment="Left" Margin="10,186,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                <CheckBox x:Name="TransparentDetail" Content="Transparent Game Details Background" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                <Label Content="WebPageBrightness:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,155,0,0"/>
+                <Slider x:Name="WebPageBrightness" Margin="141,160,10,0" VerticalAlignment="Top" Value="153" SmallChange="1" Maximum="255"/>
             </Grid>
         </GroupBox>
         <Button x:Name="ApplyButton" Content="Apply" Margin="10,0,76,10" VerticalAlignment="Bottom" Width="228" VerticalContentAlignment="Bottom" Grid.ColumnSpan="2" Click="ApplyButton_Click"/>
