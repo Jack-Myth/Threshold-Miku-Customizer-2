@@ -35,6 +35,7 @@ namespace Threshold_Miku_Customizer_2
             ComboBoxList.Add(this.Bold);
             ComboBoxList.Add(this.STUIGlobal);
             var installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
+            FontMap["<Default>"] = "";
             foreach (var fontfamily in installedFontCollection.Families)
             {
                 FontMap[fontfamily.Name] = fontfamily.GetName(System.Globalization.CultureInfo.GetCultureInfo("en-us").LCID);
@@ -42,19 +43,27 @@ namespace Threshold_Miku_Customizer_2
             foreach (ComboBox i in ComboBoxList)
             {
                 i.SelectionChanged += FontCommon_SelectionChanged;
-                i.Items.Add("");
-                foreach (var fontfamily in installedFontCollection.Families)
+                foreach (var fontItem in FontMap)
                 {
-                    i.Items.Add(fontfamily.Name);
+                    i.Items.Add(fontItem.Key);
                 }
             }
-            foreach (var i in FontSettingsDic)
+
+            List<string> fsdKeys = _FontSettingsDic.Keys.ToList();
+            foreach(var fsdkey in fsdKeys)
             {
                 foreach(var a in ComboBoxList)
                 {
-                    if (a.Name == i.Key)
+                    if (a.Name == fsdkey)
                     {
-                        a.SelectedItem = i.Value;
+                        foreach (var fontName in FontMap)
+                        {
+                            if (fontName.Value== _FontSettingsDic[fsdkey])
+                            {
+                                a.SelectedItem = fontName.Key;
+                                break;
+                            }
+                        }
                         break;
                     }
                 }
