@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Server;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -43,6 +44,8 @@ namespace Threshold_Miku_Customizer_2
         };
 
         private Dictionary<string, string> TGAImageReplaceList = new Dictionary<string, string>();
+
+        private Dictionary<string, string> FontSettings = new Dictionary<string, string>();
 
         public delegate void OnReplacingFile(string NewFile, string FileToBeReplaced);
         public MainWindow()
@@ -238,6 +241,19 @@ namespace Threshold_Miku_Customizer_2
                     "//", "");
             }
 
+            //Font
+            {
+                replaceFont("BaseFont", "Segoe UI");
+                replaceFont("Light", "Segoe UI Light");
+                replaceFont("SemiLight", "Segoe UI Semilight");
+                replaceFont("SemiBold", "Segoe UI Semibold");
+                replaceFont("Bold", "Segoe UI Bold");
+                if (FontSettings.ContainsKey("STUIGlobal")&& FontSettings["STUIGlobal"]!="")
+                    ReplaceByMark(".\\resource\\webkit.css", "STUIFontGlobal", String.Format("\n\tfont-family:\"{0}\";\n\t", FontSettings["STUIGlobal"]));
+                else
+                    ReplaceByMark(".\\resource\\webkit.css", "STUIFontGlobal", "\n\t");
+            }
+
             //Webpage Brightness
             try  //Maybe no background
             {
@@ -248,6 +264,19 @@ namespace Threshold_Miku_Customizer_2
             catch (Exception) { }
 
             MessageBox.Show("Apply Succeed! Restart Steam to take effect");
+        }
+
+
+        private void replaceFont(string DicID,string DefaultFont)
+        {
+            string FontID = DicID.ToLower();
+            string ReplaceContent = "\n\t" + FontID + "=\"";
+            if (FontSettings.ContainsKey(DicID) && FontSettings[DicID] !="")
+                ReplaceContent += FontSettings[DicID];
+            else
+                ReplaceContent += DefaultFont;
+            ReplaceContent += "\"\n\t";
+            ReplaceByMark(".\\resource\\styles\\steam.styles", DicID, ReplaceContent, "//", "");
         }
 
         public static void CopyDirectory(string srcPath, string destPath, OnReplacingFile onReplacingFileDelegate=null)
@@ -331,6 +360,9 @@ namespace Threshold_Miku_Customizer_2
                 }
             }
 
+            //Fonts
+            FontSettings.Clear();
+
             TGAImageReplaceList.Clear();
             this.CollapsedSideBar.IsChecked = false;
             this.WebPageStyle.SelectedIndex = 0;
@@ -341,6 +373,11 @@ namespace Threshold_Miku_Customizer_2
             this.TransparentDetail.IsChecked = true;
             this.WebPageBrightness.Value = 153;
             ApplyButton_Click(null, null);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            new FontsSetting(ref FontSettings).ShowDialog();
         }
     }
 }

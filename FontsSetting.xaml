@@ -1,0 +1,31 @@
+﻿<Window x:Class="Threshold_Miku_Customizer_2.FontsSetting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Threshold_Miku_Customizer_2"
+        mc:Ignorable="d"
+        Title="FontsSetting" Height="286.5" Width="327" WindowStyle="ToolWindow" Loaded="Window_Loaded">
+    <Grid>
+        <GroupBox Header="VGUI" Height="180" Margin="6,4,6,0" VerticalAlignment="Top">
+            <Grid Margin="0">
+                <Label Content="BaseFont:" HorizontalAlignment="Left" Margin="8,6,0,0" VerticalAlignment="Top" Width="88"/>
+                <ComboBox x:Name="BaseFont" Margin="106,8,6,0" VerticalAlignment="Top"/>
+                <Label Content="Light:" HorizontalAlignment="Left" Margin="8,36,0,0" VerticalAlignment="Top" Width="88"/>
+                <ComboBox x:Name="Light" Margin="106,38,6,0" VerticalAlignment="Top"/>
+                <Label Content="SemiLight:" HorizontalAlignment="Left" Margin="8,65,0,0" VerticalAlignment="Top" Width="88"/>
+                <ComboBox x:Name="SemiLight" Margin="106,67,6,0" VerticalAlignment="Top"/>
+                <Label Content="SemiBold:" HorizontalAlignment="Left" Margin="8,96,0,0" VerticalAlignment="Top" Width="88"/>
+                <ComboBox x:Name="SemiBold" Margin="106,98,6,0" VerticalAlignment="Top"/>
+                <Label Content="Bold:" HorizontalAlignment="Left" Margin="8,126,0,0" VerticalAlignment="Top" Width="88"/>
+                <ComboBox x:Name="Bold" Margin="106,128,6,0" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="SteamUI(Experimental)" Height="59" Margin="6,191,6,0" VerticalAlignment="Top">
+            <Grid Margin="0">
+                <Label Content="Global:" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" Width="88"/>
+                <ComboBox x:Name="STUIGlobal" Margin="106,5,6,0" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

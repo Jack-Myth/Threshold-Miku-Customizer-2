@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Threshold_Miku_Customizer_2"
         mc:Ignorable="d"
-        Title="Threshold Miku Customizer 2" Height="592.529" Width="320" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico">
+        Title="Threshold Miku Customizer 2" Height="633.529" Width="320" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico">
     <Grid>
         <StackPanel Margin="27,10,27,166" Orientation="Vertical">
             <Image x:Name="PreviewImg" Height="175" VerticalAlignment="Top" Width="260" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center"/>
@@ -35,6 +35,7 @@
                 <CheckBox x:Name="TransparentDetail" Content="Transparent Game Details Background" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" IsChecked="True"/>
                 <Label Content="WebPageBrightness:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,155,0,0"/>
                 <Slider x:Name="WebPageBrightness" Margin="141,160,10,0" VerticalAlignment="Top" Value="153" SmallChange="1" Maximum="255"/>
+                <Button Content="Fonts Setting" HorizontalAlignment="Left" Margin="10,0,0,10.5" VerticalAlignment="Bottom" Width="262" Click="Button_Click"/>
             </Grid>
         </GroupBox>
         <Button x:Name="ApplyButton" Content="Apply" Margin="10,0,76,10" VerticalAlignment="Bottom" Width="228" VerticalContentAlignment="Bottom" Grid.ColumnSpan="2" Click="ApplyButton_Click"/>
