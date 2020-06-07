@@ -20,7 +20,8 @@
     <sys:String x:Key="FontsSetting">Fonts Setting</sys:String>
     <sys:String x:Key="Apply">Apply</sys:String>
     <sys:String x:Key="Reset">Reset</sys:String>
-    <sys:String x:Key="ReplacedBy">Replaced By:</sys:String>
+    <sys:String x:Key="ReplacedBy">Will be replaced by:{0}</sys:String>
+    <sys:String x:Key="BGReplaced">This background has been replaced</sys:String>
     <sys:String x:Key="VGUI">VGUI</sys:String>
     <sys:String x:Key="BaseFont">BaseFont:</sys:String>
     <sys:String x:Key="Light">Light:</sys:String>
@@ -32,4 +33,5 @@
     <sys:String x:Key="ImgTooBigWarning">MainBG Is Too Big, Background may not take effect.</sys:String>
     <sys:String x:Key="ApplySucceed">Apply Succeed! Restart Steam to take effect</sys:String>
     <sys:String x:Key="ResetToDefault">Reset To Default?</sys:String>
+    <sys:String x:Key="NotSkinFolderWarning">Please put the Customizer into Threshold Miku folder.</sys:String>
 </ResourceDictionary>

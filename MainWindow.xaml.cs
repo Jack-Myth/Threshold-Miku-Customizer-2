@@ -53,8 +53,8 @@ namespace Threshold_Miku_Customizer_2
             InitializeComponent();
             if(!System.IO.Directory.Exists(".\\Customization"))
             {
-                MessageBox.Show("Can't find Customization Folder, Please put the Customizer into Threshold Miku folder."
-                    ,"Error",MessageBoxButton.OK,MessageBoxImage.Stop);
+                MessageBox.Show(Application.Current.FindResource("NotSkinFolderWarning").ToString()
+                    , "Error",MessageBoxButton.OK,MessageBoxImage.Stop);
                 Environment.Exit(0);
             }
             if(!System.IO.Directory.Exists(".\\Customization\\Collapsed Sidebar"))
@@ -89,9 +89,10 @@ namespace Threshold_Miku_Customizer_2
             //this.PreviewImg.Height = PreviewImg.Width * PreviewBitmap.Height / PreviewBitmap.Width;
             this.PreviewImg.Source = PreviewBitmap;
             if (TGAImageReplaceList.ContainsKey(CurTGAName))
-                this.ReplacedByLabel.Content = string.Format("Will be replaced by:{0}", System.IO.Path.GetFileName(TGAImageReplaceList[CurTGAName]));
+                this.ReplacedByLabel.Content = string.Format(Application.Current.FindResource("ReplacedBy").ToString()
+                    , System.IO.Path.GetFileName(TGAImageReplaceList[CurTGAName]));
             else if (System.IO.File.Exists(string.Format(".\\graphics\\JackMyth\\{0}.tmc2.bak", CurTGAName)))
-                this.ReplacedByLabel.Content = "This background has been replaced";
+                this.ReplacedByLabel.Content = Application.Current.FindResource("BGReplaced").ToString();
             else
                 this.ReplacedByLabel.Content = "";
             this.NewBackground.IsEnabled = true;
@@ -221,8 +222,8 @@ namespace Threshold_Miku_Customizer_2
                     var fileInfo = new FileInfo(TGAImageReplaceList[MainBG]);
                     if (fileInfo.Length > (500 * 1024))
                     {
-                        MessageBox.Show("MainBG Is Too Big, WebPage Background may not take effect.",
-                            "Image Too Big", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        MessageBox.Show(Application.Current.FindResource("ImgTooBigWarning").ToString(),
+                            "TMC2", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     }
                     string Base64Img = "";
                     byte[] ImgBytes = File.ReadAllBytes(TGAImageReplaceList[MainBG]);
@@ -263,7 +264,7 @@ namespace Threshold_Miku_Customizer_2
             }
             catch (Exception) { }
 
-            MessageBox.Show("Apply Succeed! Restart Steam to take effect");
+            MessageBox.Show(Application.Current.FindResource("ApplySucceed").ToString());
         }
 
 
@@ -346,7 +347,7 @@ namespace Threshold_Miku_Customizer_2
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Reset To Default?", "TMC2", MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
+            if (MessageBox.Show(Application.Current.FindResource("ResetToDefault").ToString(), "TMC2", MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
                 return;
             //Reset All Images
             //Image

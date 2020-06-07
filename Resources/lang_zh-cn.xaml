@@ -20,7 +20,8 @@
     <sys:String x:Key="FontsSetting">字体设置</sys:String>
     <sys:String x:Key="Apply">应用</sys:String>
     <sys:String x:Key="Reset">重置</sys:String>
-    <sys:String x:Key="ReplacedBy">将被替换为:</sys:String>
+    <sys:String x:Key="ReplacedBy">将被替换为:{0}</sys:String>
+    <sys:String x:Key="BGReplaced">背景已被替换</sys:String>
     <sys:String x:Key="VGUI">VGUI</sys:String>
     <sys:String x:Key="BaseFont">基础字体:</sys:String>
     <sys:String x:Key="Light">细体:</sys:String>
@@ -32,4 +33,5 @@
     <sys:String x:Key="ImgTooBigWarning">图片太大，背景可能不会生效！</sys:String>
     <sys:String x:Key="ApplySucceed">应用成功！重启Steam生效.</sys:String>
     <sys:String x:Key="ResetToDefault">重置为默认值?</sys:String>
+    <sys:String x:Key="NotSkinFolderWarning">请把定制器放到皮肤目录中</sys:String>
 </ResourceDictionary>
