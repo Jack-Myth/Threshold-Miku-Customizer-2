@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Threshold_Miku_Customizer_2.Resources"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="AppTitle">Threshold Miku Customizer 2</sys:String>
+    <sys:String x:Key="ChooseImg">Click to select a image</sys:String>
+    <sys:String x:Key="NewBG">Set new background</sys:String>
+    <sys:String x:Key="Customization">Customization</sys:String>
+    <sys:String x:Key="CollapsedSidebar">Collapsed Sidebar</sys:String>
+    <sys:String x:Key="NewWebpageWithURL">New webpage with URL</sys:String>
+    <sys:String x:Key="NewWebpageWithoutURL">New webpage without URL</sys:String>
+    <sys:String x:Key="OriginalWebpage">Original Webpage</sys:String>
+    <sys:String x:Key="LibraryBlur">LibraryBlur</sys:String>
+    <sys:String x:Key="GameList">GameList:</sys:String>
+    <sys:String x:Key="MainContent">MainContent:</sys:String>
+    <sys:String x:Key="MainContentBrightness">MainContentBrightness:</sys:String>
+    <sys:String x:Key="WebPageBrightness">WebPageBrightness:</sys:String>
+    <sys:String x:Key="ShowLibraryWindowDivider">Show Library Window Divider</sys:String>
+    <sys:String x:Key="TransparentGameDetailsBackground">Transparent Game Details Background</sys:String>
+    <sys:String x:Key="FontsSetting">Fonts Setting</sys:String>
+    <sys:String x:Key="Apply">Apply</sys:String>
+    <sys:String x:Key="Reset">Reset</sys:String>
+    <sys:String x:Key="ReplacedBy">Replaced By:</sys:String>
+    <sys:String x:Key="VGUI">VGUI</sys:String>
+    <sys:String x:Key="BaseFont">BaseFont:</sys:String>
+    <sys:String x:Key="Light">Light:</sys:String>
+    <sys:String x:Key="SemiLight">SemiLight:</sys:String>
+    <sys:String x:Key="SemiBold">SemiBold:</sys:String>
+    <sys:String x:Key="Bold">Bold:</sys:String>
+    <sys:String x:Key="SteamUI(Experimental)">SteamUI(Experimental)</sys:String>
+    <sys:String x:Key="Global">Global:</sys:String>
+    <sys:String x:Key="ImgTooBigWarning">MainBG Is Too Big, Background may not take effect.</sys:String>
+    <sys:String x:Key="ApplySucceed">Apply Succeed! Restart Steam to take effect</sys:String>
+    <sys:String x:Key="ResetToDefault">Reset To Default?</sys:String>
+</ResourceDictionary>
