@@ -40,7 +40,7 @@
         </GroupBox>
         <Button x:Name="ApplyButton" Content="{StaticResource Apply}" Margin="10,0,76,10" VerticalAlignment="Bottom" Width="228" VerticalContentAlignment="Bottom" Grid.ColumnSpan="2" Click="ApplyButton_Click"/>
         <Button x:Name="ResetButton" Content="{StaticResource Reset}" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="61" VerticalContentAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="1" Click="ResetButton_Click"/>
-        <TextBlock Margin="156,0,12,36.5" TextWrapping="Wrap" Text="Designed By JackMyth" VerticalAlignment="Bottom" FontSize="14" TextDecorations="Underline" TextAlignment="Right" Foreground="#FF0006FF" FontStyle="Italic" HorizontalAlignment="Right" MouseDown="TextBlock_MouseDown" Cursor="Hand"/>
+        <TextBlock Margin="0,0,12,36.5" TextWrapping="Wrap" Text="Designed By JackMyth" VerticalAlignment="Bottom" FontSize="14" TextDecorations="Underline" TextAlignment="Right" Foreground="#FF0006FF" FontStyle="Italic" HorizontalAlignment="Right" MouseDown="TextBlock_MouseDown" Cursor="Hand"/>
 
     </Grid>
 </Window>
