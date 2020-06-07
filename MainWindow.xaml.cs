@@ -380,5 +380,10 @@ namespace Threshold_Miku_Customizer_2
         {
             new FontsSetting(ref FontSettings).ShowDialog();
         }
+
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/Jack-Myth/Threshold-Miku/");
+        }
     }
 }

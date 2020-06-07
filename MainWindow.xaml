@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Threshold_Miku_Customizer_2"
         mc:Ignorable="d"
-        Title="{StaticResource AppTitle}" Height="633.529" Width="320" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico">
+        Title="{StaticResource AppTitle}" Height="658.529" Width="320" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico">
     <Grid>
         <StackPanel Margin="27,10,27,166" Orientation="Vertical">
             <Image x:Name="PreviewImg" Height="175" VerticalAlignment="Top" Width="260" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Source="TMC2.png"/>
@@ -13,7 +13,7 @@
             <Label x:Name="ReplacedByLabel" Content="{StaticResource ChooseImg}" Height="32"/>
         </StackPanel>
         <Button x:Name="NewBackground" Content="{StaticResource NewBG}" HorizontalAlignment="Center" Margin="61,254,61,0" VerticalAlignment="Top" Width="192" Click="NewBackground_Click" Grid.ColumnSpan="2" IsEnabled="False"/>
-        <GroupBox Header="{StaticResource Customization}" HorizontalAlignment="Left" Margin="10,278,0,35.5" Width="294" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        <GroupBox Header="{StaticResource Customization}" HorizontalAlignment="Left" Margin="10,278,0,60.5" Width="294" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
             <Grid Margin="0">
                 <CheckBox x:Name="CollapsedSideBar" Content="{StaticResource CollapsedSidebar}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="262" Grid.ColumnSpan="2"/>
                 <ComboBox x:Name="WebPageStyle" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="262" SelectedIndex="0" Grid.ColumnSpan="2">
@@ -40,6 +40,7 @@
         </GroupBox>
         <Button x:Name="ApplyButton" Content="{StaticResource Apply}" Margin="10,0,76,10" VerticalAlignment="Bottom" Width="228" VerticalContentAlignment="Bottom" Grid.ColumnSpan="2" Click="ApplyButton_Click"/>
         <Button x:Name="ResetButton" Content="{StaticResource Reset}" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="61" VerticalContentAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="1" Click="ResetButton_Click"/>
+        <TextBlock Margin="156,0,12,36.5" TextWrapping="Wrap" Text="Designed By JackMyth" VerticalAlignment="Bottom" FontSize="14" TextDecorations="Underline" TextAlignment="Right" Foreground="#FF0006FF" FontStyle="Italic" HorizontalAlignment="Right" MouseDown="TextBlock_MouseDown" Cursor="Hand"/>
 
     </Grid>
 </Window>
