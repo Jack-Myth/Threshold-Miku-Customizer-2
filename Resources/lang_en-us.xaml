@@ -22,6 +22,7 @@
     <sys:String x:Key="Reset">Reset</sys:String>
     <sys:String x:Key="ReplacedBy">Will be replaced by:{0}</sys:String>
     <sys:String x:Key="BGReplaced">This background has been replaced</sys:String>
+    <sys:String x:Key="SuggestRes">Suggest Resolution:{0}</sys:String>
     <sys:String x:Key="VGUI">VGUI</sys:String>
     <sys:String x:Key="BaseFont">BaseFont:</sys:String>
     <sys:String x:Key="Light">Light:</sys:String>
@@ -30,6 +31,11 @@
     <sys:String x:Key="Bold">Bold:</sys:String>
     <sys:String x:Key="SteamUI(Experimental)">SteamUI(Experimental)</sys:String>
     <sys:String x:Key="Global">Global:</sys:String>
+    <sys:String x:Key="GameListFontColor">GameList Font Color</sys:String>
+    <sys:String x:Key="Uninstalled">Uninstalled:</sys:String>
+    <sys:String x:Key="Installed">Installed:</sys:String>
+    <sys:String x:Key="Running">Running:</sys:String>
+    <sys:String x:Key="Updating">Updating:</sys:String>
     <sys:String x:Key="ImgTooBigWarning">MainBG Is Too Big, Background may not take effect.</sys:String>
     <sys:String x:Key="ApplySucceed">Apply Succeed! Restart Steam to take effect</sys:String>
     <sys:String x:Key="ResetToDefault">Reset To Default?</sys:String>

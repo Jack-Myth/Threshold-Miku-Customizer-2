@@ -22,6 +22,7 @@
     <sys:String x:Key="Reset">重置</sys:String>
     <sys:String x:Key="ReplacedBy">将被替换为:{0}</sys:String>
     <sys:String x:Key="BGReplaced">背景已被替换</sys:String>
+    <sys:String x:Key="SuggestRes">建议分辨率:{0}</sys:String>
     <sys:String x:Key="VGUI">VGUI</sys:String>
     <sys:String x:Key="BaseFont">基础字体:</sys:String>
     <sys:String x:Key="Light">细体:</sys:String>
@@ -30,6 +31,11 @@
     <sys:String x:Key="Bold">粗体:</sys:String>
     <sys:String x:Key="SteamUI(Experimental)">SteamUI(实验性)</sys:String>
     <sys:String x:Key="Global">全局:</sys:String>
+    <sys:String x:Key="GameListFontColor">游戏列表字体颜色</sys:String>
+    <sys:String x:Key="Uninstalled">未安装:</sys:String>
+    <sys:String x:Key="Installed">已安装:</sys:String>
+    <sys:String x:Key="Running">正在运行:</sys:String>
+    <sys:String x:Key="Updating">正在同步:</sys:String>
     <sys:String x:Key="ImgTooBigWarning">图片太大，背景可能不会生效！</sys:String>
     <sys:String x:Key="ApplySucceed">应用成功！重启Steam生效.</sys:String>
     <sys:String x:Key="ResetToDefault">重置为默认值?</sys:String>

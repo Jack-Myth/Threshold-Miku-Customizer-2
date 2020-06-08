@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,6 +25,9 @@ namespace Threshold_Miku_Customizer_2
   
     public partial class MainWindow : Window
     {
+        [DllImport("kernel32")] 
+        private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
+
         //Special Image
         const string MainBG = "MainBG";
 
@@ -42,6 +46,9 @@ namespace Threshold_Miku_Customizer_2
             { "SettingsDialog","Settings"},
             { "SystemInfo","SystemInfo"}
         };
+
+        //Image:Res
+        private static Dictionary<string, string> ImageResList = new Dictionary<string, string>();
 
         private Dictionary<string, string> TGAImageReplaceList = new Dictionary<string, string>();
 
@@ -73,8 +80,14 @@ namespace Threshold_Miku_Customizer_2
                 int.TryParse(SelectIndex, out SelectIndexInt);
                 this.WebPageStyle.SelectedIndex = SelectIndexInt;
             }
-            foreach(string TGAImage in TGAImageList.Keys)
+            foreach (string TGAImage in TGAImageList.Keys)
+            {
                 this.ImgSelector.Items.Add(TGAImage);
+                StringBuilder sres = new StringBuilder(255);
+                GetPrivateProfileString("SuggestRes", TGAImage, "", sres, 255, ".\\Previews\\Info.ini");
+                if (sres.ToString() != "")
+                    ImageResList.Add(TGAImage, sres.ToString());
+            }
         }
 
         private void ImgSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -91,8 +104,11 @@ namespace Threshold_Miku_Customizer_2
             if (TGAImageReplaceList.ContainsKey(CurTGAName))
                 this.ReplacedByLabel.Content = string.Format(Application.Current.FindResource("ReplacedBy").ToString()
                     , System.IO.Path.GetFileName(TGAImageReplaceList[CurTGAName]));
-            else if (System.IO.File.Exists(string.Format(".\\graphics\\JackMyth\\{0}.tmc2.bak", CurTGAName)))
-                this.ReplacedByLabel.Content = Application.Current.FindResource("BGReplaced").ToString();
+            /*else if (System.IO.File.Exists(string.Format(".\\graphics\\JackMyth\\{0}.tmc2.bak", CurTGAName)))
+                this.ReplacedByLabel.Content = Application.Current.FindResource("BGReplaced").ToString();*/
+            else if (ImageResList.ContainsKey(CurTGAName))
+                this.ReplacedByLabel.Content = string.Format(Application.Current.FindResource("SuggestRes").ToString(),
+                    ImageResList[CurTGAName]);
             else
                 this.ReplacedByLabel.Content = "";
             this.NewBackground.IsEnabled = true;
@@ -137,6 +153,7 @@ namespace Threshold_Miku_Customizer_2
             }
 
             //WebPage Style
+            string Base64ImgBak = GetContentByMark(".\\resource\\webkit.css", "Background");
             if (System.IO.Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
             {
                 File.Delete(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg");
@@ -233,6 +250,10 @@ namespace Threshold_Miku_Customizer_2
                 }
                 catch (Exception) { }
             }
+            else
+            {
+                ReplaceByMark(".\\resource\\webkit.css", "Background", Base64ImgBak);
+            }
             //MusicPlayerPanel
             {
                 var m_TGA = new ImageTGA(".\\graphics\\JackMyth\\MusicPlayerImg.tga",true);
@@ -253,6 +274,13 @@ namespace Threshold_Miku_Customizer_2
                     ReplaceByMark(".\\resource\\webkit.css", "STUIFontGlobal", String.Format("\n\tfont-family:\"{0}\";\n\t", FontSettings["STUIGlobal"]));
                 else
                     ReplaceByMark(".\\resource\\webkit.css", "STUIFontGlobal", "\n\t");
+            }
+            //Font Color
+            {
+                replaceFontColor("Uninstalled");
+                replaceFontColor("Installed");
+                replaceFontColor("Running");
+                replaceFontColor("Updating");
             }
 
             //Webpage Brightness
@@ -278,6 +306,14 @@ namespace Threshold_Miku_Customizer_2
                 ReplaceContent += DefaultFont;
             ReplaceContent += "\"\n\t";
             ReplaceByMark(".\\resource\\styles\\steam.styles", DicID, ReplaceContent, "//", "");
+        }
+
+        private void replaceFontColor(string DicID)
+        {
+            if (!FontSettings.ContainsKey(DicID))
+                return;
+            string ReplaceContent = string.Format("color: {0};", FontSettings[DicID]);
+            ReplaceByMark(".\\resource\\webkit.css", DicID, ReplaceContent);
         }
 
         public static void CopyDirectory(string srcPath, string destPath, OnReplacingFile onReplacingFileDelegate=null)
@@ -343,6 +379,20 @@ namespace Threshold_Miku_Customizer_2
             if (EndIndex < 0)
                 throw new OverflowException("Mark:" + Mark + " is not closed at File:" + FilePath);
             File.WriteAllText(FilePath, FileContent.Substring(0, BeginIndex + BeginMark.Length) + NewContent + FileContent.Substring(EndIndex));
+        }
+
+        private static string GetContentByMark(string FilePath,string Mark, string PreComment = "/*", string PostComment = "*/")
+        {
+            string FileContent = File.ReadAllText(FilePath);
+            string BeginMark = PreComment + "TMC2:Begin" + Mark + PostComment;
+            string EndMark = PreComment + "TMC2:End" + Mark + PostComment;
+            int BeginIndex = FileContent.IndexOf(BeginMark);
+            if (BeginIndex < 0)
+                throw new KeyNotFoundException("Mark:" + Mark + " not found at File:" + FilePath);
+            int EndIndex = FileContent.IndexOf(EndMark);
+            if (EndIndex < 0)
+                throw new OverflowException("Mark:" + Mark + " is not closed at File:" + FilePath);
+            return FileContent.Substring(BeginIndex + BeginMark.Length, EndIndex - BeginIndex - BeginMark.Length);
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)

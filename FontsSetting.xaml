@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Threshold_Miku_Customizer_2"
         mc:Ignorable="d"
-        Title="{StaticResource AppTitle}" Height="286.5" Width="327" WindowStyle="ToolWindow" Loaded="Window_Loaded">
+        Title="{StaticResource FontsSetting}" Height="427.5" Width="327" WindowStyle="ToolWindow" Loaded="Window_Loaded">
     <Grid>
         <GroupBox Header="{StaticResource VGUI}" Height="180" Margin="6,4,6,0" VerticalAlignment="Top">
             <Grid Margin="0">
@@ -25,6 +25,18 @@
             <Grid Margin="0">
                 <Label Content="{StaticResource Global}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" Width="88"/>
                 <ComboBox x:Name="STUIGlobal" Margin="106,5,6,0" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="{StaticResource GameListFontColor}" Height="133" Margin="6,257,6,0" VerticalAlignment="Top">
+            <Grid Margin="0">
+                <Label Content="{StaticResource Uninstalled}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" Width="88"/>
+                <Button x:Name="Uninstalled" Content="" Margin="106,8,6,0" VerticalAlignment="Top"/>
+                <Label Content="{StaticResource Installed}" HorizontalAlignment="Left" Margin="6,30,0,0" VerticalAlignment="Top" Width="88"/>
+                <Button x:Name="Installed" Content="" Margin="106,32,6,0" VerticalAlignment="Top"/>
+                <Label Content="{StaticResource Running}" HorizontalAlignment="Left" Margin="6,52,0,0" VerticalAlignment="Top" Width="88"/>
+                <Button x:Name="Running" Content="" Margin="106,56,6,0" VerticalAlignment="Top"/>
+                <Label Content="{StaticResource Updating}" HorizontalAlignment="Left" Margin="7,75,0,0" VerticalAlignment="Top" Width="88"/>
+                <Button x:Name="Updating" Content="" Margin="106,80,6,0" VerticalAlignment="Top"/>
             </Grid>
         </GroupBox>
     </Grid>

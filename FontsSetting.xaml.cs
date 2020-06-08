@@ -22,6 +22,7 @@ namespace Threshold_Miku_Customizer_2
     public partial class FontsSetting : Window
     {
         List<ComboBox> ComboBoxList=new List<ComboBox>();
+        List<Button> ButtonList = new List<Button>();
         Dictionary<string, string> FontSettingsDic;
         Dictionary<string, string> FontMap=new Dictionary<string, string>();
         public FontsSetting(ref Dictionary<string, string> _FontSettingsDic)
@@ -34,6 +35,10 @@ namespace Threshold_Miku_Customizer_2
             ComboBoxList.Add(this.SemiBold);
             ComboBoxList.Add(this.Bold);
             ComboBoxList.Add(this.STUIGlobal);
+            ButtonList.Add(this.Uninstalled);
+            ButtonList.Add(this.Installed);
+            ButtonList.Add(this.Running);
+            ButtonList.Add(this.Updating);
             var installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
             FontMap["<Default>"] = "";
             foreach (var fontfamily in installedFontCollection.Families)
@@ -47,6 +52,10 @@ namespace Threshold_Miku_Customizer_2
                 {
                     i.Items.Add(fontItem.Key);
                 }
+            }
+            foreach(Button i in ButtonList)
+            {
+                i.Click += ColorCommon_Click;
             }
 
             List<string> fsdKeys = _FontSettingsDic.Keys.ToList();
@@ -64,9 +73,21 @@ namespace Threshold_Miku_Customizer_2
                                 break;
                             }
                         }
+                        goto ContinueTag;
+                    }
+                }
+                foreach(var a in ButtonList)
+                {
+                    if (a.Name==fsdkey)
+                    {
+                        var DarwingColor = ColorTranslator.FromHtml(_FontSettingsDic[fsdkey]);
+                        var MediaColor = System.Windows.Media.Color.FromRgb(DarwingColor.R, DarwingColor.G, DarwingColor.B);
+                        a.Background =new SolidColorBrush(MediaColor);
                         break;
                     }
                 }
+            ContinueTag:
+                continue;
             }
         }
 
@@ -81,6 +102,17 @@ namespace Threshold_Miku_Customizer_2
             if (cbox==null)
                 return;
             FontSettingsDic[cbox.Name] = FontMap[cbox.SelectedItem.ToString()];
+        }
+
+        private void ColorCommon_Click(object sender, RoutedEventArgs e)
+        {
+            var ColorPicker = new System.Windows.Forms.ColorDialog();
+            if(ColorPicker.ShowDialog()==System.Windows.Forms.DialogResult.OK)
+            {
+                FontSettingsDic[((Button)sender).Name] = ColorTranslator.ToHtml(ColorPicker.Color);
+                var MediaColor = System.Windows.Media.Color.FromRgb(ColorPicker.Color.R, ColorPicker.Color.G, ColorPicker.Color.B);
+                ((Button)sender).Background = new SolidColorBrush(MediaColor);
+            }
         }
     }
 }
