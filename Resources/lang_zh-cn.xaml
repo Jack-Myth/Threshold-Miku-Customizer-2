@@ -13,7 +13,7 @@
     <sys:String x:Key="LibraryBlur">模糊效果</sys:String>
     <sys:String x:Key="GameList">游戏列表:</sys:String>
     <sys:String x:Key="MainContent">主内容:</sys:String>
-    <sys:String x:Key="MainContentBrightness">主内容亮度:</sys:String>
+    <sys:String x:Key="MainContentBrightness">主内容不透明度:</sys:String>
     <sys:String x:Key="WebPageBrightness">网页背景亮度:</sys:String>
     <sys:String x:Key="ShowLibraryWindowDivider">显示库和主内容的分隔线</sys:String>
     <sys:String x:Key="TransparentGameDetailsBackground">透明化游戏详情页面</sys:String>
@@ -36,6 +36,7 @@
     <sys:String x:Key="Installed">已安装:</sys:String>
     <sys:String x:Key="Running">正在运行:</sys:String>
     <sys:String x:Key="Updating">正在同步:</sys:String>
+    <sys:String x:Key="GroupSection">分组标题:</sys:String>
     <sys:String x:Key="ImgTooBigWarning">图片太大，背景可能不会生效！</sys:String>
     <sys:String x:Key="ApplySucceed">应用成功！重启Steam生效.</sys:String>
     <sys:String x:Key="ResetToDefault">重置为默认值?</sys:String>

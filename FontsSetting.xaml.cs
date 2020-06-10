@@ -39,6 +39,7 @@ namespace Threshold_Miku_Customizer_2
             ButtonList.Add(this.Installed);
             ButtonList.Add(this.Running);
             ButtonList.Add(this.Updating);
+            ButtonList.Add(this.GameListSectionHeader);
             var installedFontCollection = new System.Drawing.Text.InstalledFontCollection();
             FontMap["<Default>"] = "";
             foreach (var fontfamily in installedFontCollection.Families)

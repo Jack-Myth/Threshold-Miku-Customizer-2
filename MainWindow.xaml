@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Threshold_Miku_Customizer_2"
         mc:Ignorable="d"
-        Title="{StaticResource AppTitle}" Height="658.529" Width="320" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico">
+        Title="{StaticResource AppTitle}" Height="632.529" Width="320" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico">
     <Grid>
         <StackPanel Margin="27,10,27,166" Orientation="Vertical">
             <Image x:Name="PreviewImg" Height="175" VerticalAlignment="Top" Width="260" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Source="TMC2.png"/>
@@ -29,10 +29,9 @@
                         <Slider x:Name="MainContentBlur" Margin="94,32,0,0" VerticalAlignment="Top" Value="10" SmallChange="1"/>
                     </Grid>
                 </GroupBox>
-                <Label Content="{StaticResource MainContentBrightness}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="153" Margin="10,134,0,0"/>
-                <Slider x:Name="MainContentBrightness" Margin="163,139,10,0" VerticalAlignment="Top" Value="60" SmallChange="1" Maximum="100"/>
+                <Label Content="{StaticResource MainContentBrightness}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="131" Margin="10,134,0,0"/>
+                <Slider x:Name="MainContentBrightness" Margin="141,139,10,0" VerticalAlignment="Top" Value="90" SmallChange="1" Maximum="100"/>
                 <CheckBox x:Name="ShowLWD" Content="{StaticResource ShowLibraryWindowDivider}" HorizontalAlignment="Left" Margin="10,186,0,0" VerticalAlignment="Top" IsChecked="True"/>
-                <CheckBox x:Name="TransparentDetail" Content="{StaticResource TransparentGameDetailsBackground}" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" IsChecked="True"/>
                 <Label Content="{StaticResource WebPageBrightness}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,155,0,0"/>
                 <Slider x:Name="WebPageBrightness" Margin="141,160,10,0" VerticalAlignment="Top" Value="153" SmallChange="1" Maximum="255"/>
                 <Button Content="{StaticResource FontsSetting}" HorizontalAlignment="Left" Margin="10,0,0,10.5" VerticalAlignment="Bottom" Width="262" Click="Button_Click"/>

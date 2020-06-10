@@ -13,7 +13,7 @@
     <sys:String x:Key="LibraryBlur">LibraryBlur</sys:String>
     <sys:String x:Key="GameList">GameList:</sys:String>
     <sys:String x:Key="MainContent">MainContent:</sys:String>
-    <sys:String x:Key="MainContentBrightness">MainContentBrightness:</sys:String>
+    <sys:String x:Key="MainContentBrightness">MainContentOpacity:</sys:String>
     <sys:String x:Key="WebPageBrightness">WebPageBrightness:</sys:String>
     <sys:String x:Key="ShowLibraryWindowDivider">Show Library Window Divider</sys:String>
     <sys:String x:Key="TransparentGameDetailsBackground">Transparent Game Details Background</sys:String>
@@ -36,6 +36,7 @@
     <sys:String x:Key="Installed">Installed:</sys:String>
     <sys:String x:Key="Running">Running:</sys:String>
     <sys:String x:Key="Updating">Updating:</sys:String>
+    <sys:String x:Key="GroupSection">GroupSection:</sys:String>
     <sys:String x:Key="ImgTooBigWarning">MainBG Is Too Big, Background may not take effect.</sys:String>
     <sys:String x:Key="ApplySucceed">Apply Succeed! Restart Steam to take effect</sys:String>
     <sys:String x:Key="ResetToDefault">Reset To Default?</sys:String>

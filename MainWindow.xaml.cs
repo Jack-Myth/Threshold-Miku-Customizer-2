@@ -129,6 +129,8 @@ namespace Threshold_Miku_Customizer_2
             //Image
             foreach(KeyValuePair<string,string> TGAReplaceItem in TGAImageReplaceList)
             {
+                if (TGAReplaceItem.Value == "")
+                    continue;
                 string TGAPartPath= string.Format(".\\graphics\\JackMyth\\{0}", TGAReplaceItem.Key);
                 if(!System.IO.File.Exists(string.Format("{0}.tmc2.bak",TGAPartPath))&&File.Exists(string.Format("{0}.tga", TGAPartPath)))
                     System.IO.File.Copy(string.Format("{0}.tga", TGAPartPath), string.Format("{0}.tmc2.bak", TGAPartPath));
@@ -187,7 +189,7 @@ namespace Threshold_Miku_Customizer_2
             ReplaceByMark(".\\resource\\webkit.css", "GameListBlur", 
                 string.Format("filter: blur({0}px);",this.GameListBlur.Value.ToString()));
             ReplaceByMark(".\\resource\\webkit.css", "MainContent",
-                string.Format("filter: blur({0}px) brightness({1}%);", this.MainContentBlur.Value.ToString(), this.MainContentBrightness.Value.ToString()));
+                string.Format("filter: blur({0}px) opacity({1}%);", this.MainContentBlur.Value.ToString(), this.MainContentBrightness.Value.ToString()));
 
             //Show LWD
             if(this.ShowLWD.IsChecked==true)
@@ -199,11 +201,6 @@ namespace Threshold_Miku_Customizer_2
             {
                 ReplaceByMark(".\\resource\\webkit.css", "LWD", 
                     "\r\n\tbackground-color: #17191b00!important;\r\n\t");
-            }
-
-            if(this.TransparentDetail.IsChecked==false)
-            {
-                ReplaceByMark(".\\resource\\webkit.css", "TransparentContent", "\r\n");
             }
 
             if(this.CollapsedSideBar.IsChecked==true)
@@ -226,29 +223,32 @@ namespace Threshold_Miku_Customizer_2
             //Special Image
             if (TGAImageReplaceList.Keys.Contains(MainBG))
             {
-                //Webkit Base64
-                //Backup First
-                if (!Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
+                if (TGAImageReplaceList[MainBG] != "")
                 {
-                    Directory.CreateDirectory(".\\Customization\\Backup\\WebPageStyle\\resource");
-                    File.Copy(".\\resource\\webkit.css", ".\\Customization\\Backup\\WebPageStyle\\resource\\webkit.css");
-                    File.WriteAllText(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg", WebPageStyle.SelectedIndex.ToString());
-                }
-                try
-                {
-                    var fileInfo = new FileInfo(TGAImageReplaceList[MainBG]);
-                    if (fileInfo.Length > (500 * 1024))
+                    //Webkit Base64
+                    //Backup First
+                    if (!Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
                     {
-                        MessageBox.Show(Application.Current.FindResource("ImgTooBigWarning").ToString(),
-                            "TMC2", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        Directory.CreateDirectory(".\\Customization\\Backup\\WebPageStyle\\resource");
+                        File.Copy(".\\resource\\webkit.css", ".\\Customization\\Backup\\WebPageStyle\\resource\\webkit.css");
+                        File.WriteAllText(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg", WebPageStyle.SelectedIndex.ToString());
                     }
-                    string Base64Img = "";
-                    byte[] ImgBytes = File.ReadAllBytes(TGAImageReplaceList[MainBG]);
-                    Base64Img = "background:url(data:image/jpeg;base64," + Convert.ToBase64String(ImgBytes) + ");";
-                    ReplaceByMark(".\\resource\\webkit.css", "Background", Base64Img);
+                    try
+                    {
+                        var fileInfo = new FileInfo(TGAImageReplaceList[MainBG]);
+                        if (fileInfo.Length > (500 * 1024))
+                        {
+                            MessageBox.Show(Application.Current.FindResource("ImgTooBigWarning").ToString(),
+                                "TMC2", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        }
+                        string Base64Img = "";
+                        byte[] ImgBytes = File.ReadAllBytes(TGAImageReplaceList[MainBG]);
+                        Base64Img = "background:url(data:image/jpeg;base64," + Convert.ToBase64String(ImgBytes) + ");";
+                        ReplaceByMark(".\\resource\\webkit.css", "Background", Base64Img);
 
+                    }
+                    catch (Exception) { }
                 }
-                catch (Exception) { }
             }
             else
             {
@@ -281,6 +281,7 @@ namespace Threshold_Miku_Customizer_2
                 replaceFontColor("Installed");
                 replaceFontColor("Running");
                 replaceFontColor("Updating");
+                replaceFontColor("GameListSectionHeader");
             }
 
             //Webpage Brightness
@@ -415,15 +416,17 @@ namespace Threshold_Miku_Customizer_2
             FontSettings.Clear();
 
             TGAImageReplaceList.Clear();
+            TGAImageReplaceList.Add(MainBG, "");
             this.CollapsedSideBar.IsChecked = false;
             this.WebPageStyle.SelectedIndex = 0;
             this.GameListBlur.Value = 5;
             this.MainContentBlur.Value = 10;
-            this.MainContentBrightness.Value = 60;
+            this.MainContentBrightness.Value = 90;
             this.ShowLWD.IsChecked = true;
-            this.TransparentDetail.IsChecked = true;
             this.WebPageBrightness.Value = 153;
+
             ApplyButton_Click(null, null);
+            TGAImageReplaceList.Clear();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
