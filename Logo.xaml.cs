@@ -26,15 +26,26 @@ namespace Threshold_Miku_Customizer_2
         public Logo()
         {
             InitializeComponent();
-            List<ResourceDictionary> dictionaryList=new List<ResourceDictionary>();
-            foreach (ResourceDictionary dictionary in Application.Current.Resources.MergedDictionaries)
-                dictionaryList.Add(dictionary);
-            string requestedCulture = @"Resources\lang_en-us.xaml";
-            if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "zh")
-                requestedCulture = @"Resources\lang_zh-cn.xaml";
-            ResourceDictionary resourceDictionary = dictionaryList.FirstOrDefault(d => d.Source.OriginalString.Equals(requestedCulture));
-            Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
-            Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+
+            if (!Environment.GetCommandLineArgs().Contains("-nolocalization"))
+            {
+                List<ResourceDictionary> dictionaryList = new List<ResourceDictionary>();
+                foreach (ResourceDictionary dictionary in Application.Current.Resources.MergedDictionaries)
+                    dictionaryList.Add(dictionary);
+                string requestedCulture = @"Resources\lang_en-us.xaml";
+                if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "zh")
+                    requestedCulture = @"Resources\lang_zh-cn.xaml";
+                ResourceDictionary resourceDictionary = dictionaryList.FirstOrDefault(d => d.Source.OriginalString.Equals(requestedCulture));
+                Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
+                Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+            }
+            string v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            try
+            {
+                if (System.IO.File.Exists(".\\Customization\\Backup\\" + v))
+                    System.IO.Directory.Delete(".\\Customization\\Backup");
+            }
+            catch (Exception){ }
             mTimer = new DispatcherTimer();
             mTimer.Interval = TimeSpan.FromSeconds(2);
             mTimer.Tick += ShowMainWindow;

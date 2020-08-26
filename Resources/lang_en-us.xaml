@@ -41,4 +41,6 @@
     <sys:String x:Key="ApplySucceed">Apply Succeed! Restart Steam to take effect</sys:String>
     <sys:String x:Key="ResetToDefault">Reset To Default?</sys:String>
     <sys:String x:Key="NotSkinFolderWarning">Please put the Customizer into Threshold Miku folder.</sys:String>
+    <sys:String x:Key="ResetAll">Reset All</sys:String>
+    <sys:String x:Key="ResetCurrentPicture">Reset Current Picture</sys:String>
 </ResourceDictionary>

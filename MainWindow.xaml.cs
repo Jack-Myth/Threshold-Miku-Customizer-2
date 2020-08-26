@@ -293,6 +293,11 @@ namespace Threshold_Miku_Customizer_2
             }
             catch (Exception) { }
 
+            if (Directory.Exists(".\\Customization\\Backup"))
+            {
+                string v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                File.Create(".\\Customization\\Backup\\"+ v).Close();
+            }
             MessageBox.Show(Application.Current.FindResource("ApplySucceed").ToString());
         }
 
@@ -396,7 +401,7 @@ namespace Threshold_Miku_Customizer_2
             return FileContent.Substring(BeginIndex + BeginMark.Length, EndIndex - BeginIndex - BeginMark.Length);
         }
 
-        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        void ResetAll()
         {
             if (MessageBox.Show(Application.Current.FindResource("ResetToDefault").ToString(), "TMC2", MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
                 return;
@@ -427,6 +432,30 @@ namespace Threshold_Miku_Customizer_2
 
             ApplyButton_Click(null, null);
             TGAImageReplaceList.Clear();
+        }
+
+        private void MenuItemResetAll_Click(object sender, EventArgs e)
+        {
+            ResetAll();
+        }
+
+        private void MenuItemCurrentPicture_Click(object sender, EventArgs e)
+        {
+            var TGAItem = (string)ImgSelector.SelectedItem;
+            string TGAPartPath = string.Format(".\\graphics\\JackMyth\\{0}", TGAItem);
+            if (System.IO.File.Exists(string.Format("{0}.tmc2.bak", TGAPartPath)))
+            {
+                File.Delete(string.Format("{0}.tga", TGAPartPath));
+                System.IO.File.Move(string.Format("{0}.tmc2.bak", TGAPartPath), string.Format("{0}.tga", TGAPartPath));
+            }
+            if((string)ImgSelector.SelectedItem==MainBG&&Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
+                CopyDirectory(".\\Customization\\Backup\\WebPageStyle", ".\\");
+            TGAImageReplaceList.Remove((string)ImgSelector.SelectedItem);
+        }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetButton.ContextMenu.IsOpen = true;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -41,4 +41,6 @@
     <sys:String x:Key="ApplySucceed">应用成功！重启Steam生效.</sys:String>
     <sys:String x:Key="ResetToDefault">重置为默认值?</sys:String>
     <sys:String x:Key="NotSkinFolderWarning">请把定制器放到皮肤目录中</sys:String>
+    <sys:String x:Key="ResetAll">重置全部</sys:String>
+    <sys:String x:Key="ResetCurrentPicture">重置当前图片</sys:String>
 </ResourceDictionary>
