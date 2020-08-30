@@ -450,6 +450,16 @@ namespace Threshold_Miku_Customizer_2
             }
             if((string)ImgSelector.SelectedItem==MainBG&&Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
                 CopyDirectory(".\\Customization\\Backup\\WebPageStyle", ".\\");
+
+            //MusicPlayerPanel
+            {
+                var m_TGA = new ImageTGA(".\\graphics\\JackMyth\\MusicPlayerImg.tga", true);
+                ReplaceByMark(".\\resource\\layout\\musicplayerpanel.layout", "MusicPlayerLayout",
+                    String.Format("\r\n\t\t\t\t1=\"image(x1-{0},y1-{1},x1,y1-76,graphics/JackMyth/MusicPlayerImg)\"\r\n\t\t\t\t",
+                        m_TGA.Image.Width, m_TGA.Image.Height + 76),
+                    "//", "");
+            }
+
             TGAImageReplaceList.Remove((string)ImgSelector.SelectedItem);
         }
 
