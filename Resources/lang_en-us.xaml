@@ -43,4 +43,5 @@
     <sys:String x:Key="NotSkinFolderWarning">Please put the Customizer into Threshold Miku folder.</sys:String>
     <sys:String x:Key="ResetAll">Reset All</sys:String>
     <sys:String x:Key="ResetCurrentPicture">Reset Current Picture</sys:String>
+    <sys:String x:Key="MainContentUnderpainting">MainContentUnderpainting:</sys:String>
 </ResourceDictionary>

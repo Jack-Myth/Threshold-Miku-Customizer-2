@@ -43,4 +43,5 @@
     <sys:String x:Key="NotSkinFolderWarning">请把定制器放到皮肤目录中</sys:String>
     <sys:String x:Key="ResetAll">重置全部</sys:String>
     <sys:String x:Key="ResetCurrentPicture">重置当前图片</sys:String>
+    <sys:String x:Key="MainContentUnderpainting">主内容底色:</sys:String>
 </ResourceDictionary>

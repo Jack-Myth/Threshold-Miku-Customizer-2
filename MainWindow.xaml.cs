@@ -31,6 +31,8 @@ namespace Threshold_Miku_Customizer_2
         //Special Image
         const string MainBG = "MainBG";
 
+        System.Drawing.Color MainContentBaseColor;
+
         //Image:Preview
         private static readonly Dictionary<string, string> TGAImageList = new Dictionary<string, string>
         {
@@ -63,6 +65,22 @@ namespace Threshold_Miku_Customizer_2
                 MessageBox.Show(Application.Current.FindResource("NotSkinFolderWarning").ToString()
                     , "Error",MessageBoxButton.OK,MessageBoxImage.Stop);
                 Environment.Exit(0);
+            }
+
+            {
+                StringBuilder ColorOutput=new StringBuilder();
+                ColorOutput.Length = 256;
+                GetPrivateProfileString("Config",
+                    "MainContentBaseColor",
+                    "#000000",
+                    ColorOutput,
+                    ColorOutput.Length,
+                    ".\\Customization\\TMC2.ini");
+                MainContentBaseColor = System.Drawing.ColorTranslator.FromHtml(ColorOutput.ToString());
+                var MediaColor = System.Windows.Media.Color.FromRgb(MainContentBaseColor.R,
+                 MainContentBaseColor.G,
+                 MainContentBaseColor.B);
+                this.MainContentUpating.Background = new SolidColorBrush(MediaColor);
             }
             if(!System.IO.Directory.Exists(".\\Customization\\Collapsed Sidebar"))
             {
@@ -185,12 +203,20 @@ namespace Threshold_Miku_Customizer_2
                     break;
             }
 
-            //Blur and Brightness
-            ReplaceByMark(".\\resource\\webkit.css", "GameListBlur", 
-                string.Format("filter: blur({0}px);",this.GameListBlur.Value.ToString()));
-            ReplaceByMark(".\\resource\\webkit.css", "MainContent",
-                string.Format("filter: blur({0}px) opacity({1}%);", this.MainContentBlur.Value.ToString(), this.MainContentBrightness.Value.ToString()));
-
+            {
+                //Blur and Brightness
+                ReplaceByMark(".\\resource\\webkit.css", "GameListBlur",
+                    string.Format("filter: blur({0}px);", this.GameListBlur.Value.ToString()));
+                ReplaceByMark(".\\resource\\webkit.css", "MainContentBlur",
+                    string.Format("filter: blur({0}px);", this.MainContentBlur.Value.ToString()));
+                double Brightness = 1 - this.MainContentBrightness.Value / this.MainContentBrightness.Maximum;
+                int StartAlpha = (int)Math.Min((Brightness * 2)*255,255.0);
+                int EndAlpha = (int)Math.Max((Brightness - 0.5) * 255, 0);
+                ReplaceByMark(".\\resource\\webkit.css", "MainContentBrightness",
+                    string.Format("background: radial-gradient(closest-side, {0}{1} 0%, {2}{3} 100%);",
+                    System.Drawing.ColorTranslator.ToHtml(MainContentBaseColor),StartAlpha.ToString("X2"),
+                    System.Drawing.ColorTranslator.ToHtml(MainContentBaseColor), EndAlpha.ToString("X2")));
+            }
             //Show LWD
             if(this.ShowLWD.IsChecked==true)
             {
@@ -476,6 +502,19 @@ namespace Threshold_Miku_Customizer_2
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/Jack-Myth/Threshold-Miku/");
+        }
+
+        private void MainContentUpating_Click(object sender, RoutedEventArgs e)
+        {
+            var ColorPicker = new System.Windows.Forms.ColorDialog();
+            if (ColorPicker.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                MainContentBaseColor = System.Drawing.Color.FromArgb(255, ColorPicker.Color);
+            }
+            var MediaColor = System.Windows.Media.Color.FromRgb(MainContentBaseColor.R,
+                 MainContentBaseColor.G,
+                 MainContentBaseColor.B);
+            this.MainContentUpating.Background = new SolidColorBrush(MediaColor);
         }
     }
 }
