@@ -30,7 +30,7 @@
                     </Grid>
                 </GroupBox>
                 <Label Content="{StaticResource MainContentBrightness}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="131" Margin="10,134,0,0"/>
-                <Slider x:Name="MainContentBrightness" Margin="141,139,10,0" VerticalAlignment="Top" Value="90" SmallChange="1" Maximum="100"/>
+                <Slider x:Name="MainContentBrightness" Margin="141,139,10,0" VerticalAlignment="Top" Value="100" SmallChange="1" Maximum="100"/>
                 <CheckBox x:Name="ShowLWD" Content="{StaticResource ShowLibraryWindowDivider}" HorizontalAlignment="Left" Margin="10,186,0,0" VerticalAlignment="Top" IsChecked="True"/>
                 <Label Content="{StaticResource WebPageBrightness}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,155,0,0"/>
                 <Slider x:Name="WebPageBrightness" Margin="141,160,10,0" VerticalAlignment="Top" Value="153" SmallChange="1" Maximum="255"/>

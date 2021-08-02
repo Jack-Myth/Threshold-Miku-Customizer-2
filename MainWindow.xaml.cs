@@ -198,6 +198,7 @@ namespace Threshold_Miku_Customizer_2
                     File.WriteAllText(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg", "1");
                     break;
                 case 2:
+                    ReplaceByMark(".\\resource\\webkit.css", "WebPageStyleBG", "\n");
                     ReplaceByMark(".\\resource\\webkit.css", "WebPageStyle", "\n");
                     File.WriteAllText(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg", "2");
                     break;
