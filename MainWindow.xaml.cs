@@ -71,6 +71,35 @@ namespace Threshold_Miku_Customizer_2
             }
         }
 
+        private void UpdateReplaceLabel()
+        {
+            if(this.ImgSelector.SelectedItem==null)
+            {
+                return;
+            }
+            string CurTGAName = (string)this.ImgSelector.SelectedItem;
+            this.ReplacedByLabel.Cursor = Cursors.Arrow;
+            this.ReplacedByLabel.Foreground = Brushes.Black;
+            this.ReplacedByLabel.TextDecorations = null;
+            if (G.TGAImageReplaceList.ContainsKey(CurTGAName))
+            {
+                this.ReplacedByLabel.Text = string.Format(Application.Current.FindResource("ReplacedBy").ToString()
+                    , System.IO.Path.GetFileName(G.TGAImageReplaceList[CurTGAName]));
+                this.ReplacedByLabel.Cursor = Cursors.Hand;
+                this.ReplacedByLabel.TextDecorations = TextDecorations.Underline;
+                this.ReplacedByLabel.Foreground = Brushes.Blue;
+            }
+            else if (G.ImageResList.ContainsKey(CurTGAName))
+            {
+                this.ReplacedByLabel.Text = string.Format(Application.Current.FindResource("SuggestRes").ToString(),
+                    G.ImageResList[CurTGAName]);
+            }
+            else
+            {
+                this.ReplacedByLabel.Text = "";
+            }
+        }
+
         private void ImgSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string CurTGAName = (string)this.ImgSelector.SelectedItem;
@@ -82,17 +111,8 @@ namespace Threshold_Miku_Customizer_2
             var PreviewBitmap= new BitmapImage(new Uri(System.IO.Path.GetFullPath(string.Format(".\\Previews\\{0}.jpg", G.TGAImageList[CurTGAName]))));
             //this.PreviewImg.Height = PreviewImg.Width * PreviewBitmap.Height / PreviewBitmap.Width;
             this.PreviewImg.Source = PreviewBitmap;
-            if (G.TGAImageReplaceList.ContainsKey(CurTGAName))
-                this.ReplacedByLabel.Content = string.Format(Application.Current.FindResource("ReplacedBy").ToString()
-                    , System.IO.Path.GetFileName(G.TGAImageReplaceList[CurTGAName]));
-            /*else if (System.IO.File.Exists(string.Format(".\\graphics\\JackMyth\\{0}.tmc2.bak", CurTGAName)))
-                this.ReplacedByLabel.Content = Application.Current.FindResource("BGReplaced").ToString();*/
-            else if (G.ImageResList.ContainsKey(CurTGAName))
-                this.ReplacedByLabel.Content = string.Format(Application.Current.FindResource("SuggestRes").ToString(),
-                    G.ImageResList[CurTGAName]);
-            else
-                this.ReplacedByLabel.Content = "";
             this.NewBackground.IsEnabled = true;
+            UpdateReplaceLabel();
         }
 
         private void NewBackground_Click(object sender, RoutedEventArgs e)
@@ -102,7 +122,7 @@ namespace Threshold_Miku_Customizer_2
             if (ofd.ShowDialog()!=true)
                 return;
             G.TGAImageReplaceList[(string)ImgSelector.SelectedItem] = ofd.FileName;
-            this.ReplacedByLabel.Content = string.Format("ReplacedBy:{0}", System.IO.Path.GetFileName(ofd.FileName));
+            UpdateReplaceLabel();
         }
 
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
@@ -142,6 +162,10 @@ namespace Threshold_Miku_Customizer_2
 
         private void MenuItemCurrentPicture_Click(object sender, EventArgs e)
         {
+            if(ImgSelector.SelectedItem==null)
+            {
+                return;
+            }
             var TGAItem = (string)ImgSelector.SelectedItem;
             string TGAPartPath = string.Format(".\\graphics\\JackMyth\\{0}", TGAItem);
             if (System.IO.File.Exists(string.Format("{0}.tmc2.bak", TGAPartPath)))
@@ -162,6 +186,7 @@ namespace Threshold_Miku_Customizer_2
             }
 
             G.TGAImageReplaceList.Remove((string)ImgSelector.SelectedItem);
+            UpdateReplaceLabel();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -211,7 +236,7 @@ namespace Threshold_Miku_Customizer_2
 
         private void LoadSettings_Click(object sender, RoutedEventArgs e)
         {
-            var ofd = new Microsoft.Win32.SaveFileDialog();
+            var ofd = new Microsoft.Win32.OpenFileDialog();
             ofd.Filter = "Saved JSON|*.json";
             if (ofd.ShowDialog() != true)
                 return;
@@ -226,6 +251,18 @@ namespace Threshold_Miku_Customizer_2
             foreach (IModifier Modifier in G.ModifierList)
             {
                 Modifier.Load(LoadedObj);
+            }
+            UpdateReplaceLabel();
+        }
+
+        private void ReplacedByLabel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            string CurTGAName = (string)this.ImgSelector.SelectedItem;
+            if (G.TGAImageReplaceList.ContainsKey(CurTGAName)&&
+                File.Exists(G.TGAImageReplaceList[CurTGAName]))
+            {
+                string Arg = $"/select,\"{G.TGAImageReplaceList[CurTGAName]}\"";
+                System.Diagnostics.Process.Start("explorer.exe", Arg);
             }
         }
     }

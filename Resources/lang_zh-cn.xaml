@@ -44,7 +44,7 @@
     <sys:String x:Key="ResetAll">重置全部</sys:String>
     <sys:String x:Key="ResetCurrentPicture">重置当前图片</sys:String>
     <sys:String x:Key="MainContentUnderpainting">主内容底色:</sys:String>
-    <sys:String x:Key="SaveSettings">保存设置:</sys:String>
-    <sys:String x:Key="LoadSettings">读取设置:</sys:String>
+    <sys:String x:Key="SaveSettings">保存设置</sys:String>
+    <sys:String x:Key="LoadSettings">读取设置</sys:String>
     <sys:String x:Key="LoadSettingsFailed">读取设置失败!</sys:String>
 </ResourceDictionary>

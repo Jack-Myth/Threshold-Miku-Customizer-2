@@ -192,8 +192,6 @@ namespace Threshold_Miku_Customizer_2
                 Directory.CreateDirectory(".\\Customization\\Backup\\WebPageStyle\\resource");
                 File.Copy(".\\resource\\webkit.css", ".\\Customization\\Backup\\WebPageStyle\\resource\\webkit.css");
             }
-            Directory.CreateDirectory(".\\Customization\\Backup\\WebPageStyle\\resource");
-            File.Copy(".\\resource\\webkit.css", ".\\Customization\\Backup\\WebPageStyle\\resource\\webkit.css");
         }
 
         public static string GetTempFilePathWithExtension(string extension)
@@ -385,6 +383,11 @@ namespace Threshold_Miku_Customizer_2
             G.MainWindow.MainContentBlur.Value = MyData["MainContentBlur"].ToObject<double>();
             G.MainWindow.MainContentBrightness.Value = MyData["MainContentBrightness"].ToObject<double>();
             G.MainWindow.WebPageBrightness.Value = MyData["WebPageBrightness"].ToObject<double>();
+            G.MainContentBaseColor = System.Drawing.ColorTranslator.FromHtml(MyData["MainContentBaseColor"].ToString());
+            var MediaColor = System.Windows.Media.Color.FromRgb(G.MainContentBaseColor.R,
+                 G.MainContentBaseColor.G,
+                 G.MainContentBaseColor.B);
+            G.MainWindow.MainContentUpating.Background = new System.Windows.Media.SolidColorBrush(MediaColor);
         }
 
         public void Reset()
@@ -393,6 +396,10 @@ namespace Threshold_Miku_Customizer_2
             G.MainWindow.MainContentBlur.Value = 10;
             G.MainWindow.MainContentBrightness.Value = 90;
             G.MainWindow.WebPageBrightness.Value = 153;
+            var MediaColor = System.Windows.Media.Color.FromRgb(G.MainContentBaseColor.R,
+                 G.MainContentBaseColor.G,
+                 G.MainContentBaseColor.B);
+            G.MainWindow.MainContentUpating.Background = new System.Windows.Media.SolidColorBrush(MediaColor);
         }
 
         public void Save(ref JObject SavedData)
@@ -402,6 +409,7 @@ namespace Threshold_Miku_Customizer_2
             MyData["MainContentBlur"] = G.MainWindow.MainContentBlur.Value;
             MyData["MainContentBrightness"] = G.MainWindow.MainContentBrightness.Value;
             MyData["WebPageBrightness"] = G.MainWindow.WebPageBrightness.Value;
+            MyData["MainContentBaseColor"] = System.Drawing.ColorTranslator.ToHtml(G.MainContentBaseColor);
             SavedData["BlurBrightness"] = MyData;
         }
     }
