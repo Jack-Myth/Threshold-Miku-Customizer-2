@@ -44,4 +44,7 @@
     <sys:String x:Key="ResetAll">Reset All</sys:String>
     <sys:String x:Key="ResetCurrentPicture">Reset Current Picture</sys:String>
     <sys:String x:Key="MainContentUnderpainting">MainContentUnderpainting:</sys:String>
+    <sys:String x:Key="SaveSettings">SaveSettings:</sys:String>
+    <sys:String x:Key="LoadSettings">LoadSettings:</sys:String>
+    <sys:String x:Key="LoadSettingsFailed">Load Settings Failed!</sys:String>
 </ResourceDictionary>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.SqlServer.Server;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,8 +26,6 @@ namespace Threshold_Miku_Customizer_2
   
     public partial class MainWindow : Window
     {
-
-        public delegate void OnReplacingFile(string NewFile, string FileToBeReplaced);
         public MainWindow()
         {
             InitializeComponent();
@@ -80,7 +79,7 @@ namespace Threshold_Miku_Customizer_2
                 this.PreviewImg.Source = new BitmapImage();
                 return;
             }
-            var PreviewBitmap= new BitmapImage(new Uri(System.IO.Path.GetFullPath(string.Format(".\\Previews\\{0}.jpg", TGAImageList[CurTGAName]))));
+            var PreviewBitmap= new BitmapImage(new Uri(System.IO.Path.GetFullPath(string.Format(".\\Previews\\{0}.jpg", G.TGAImageList[CurTGAName]))));
             //this.PreviewImg.Height = PreviewImg.Width * PreviewBitmap.Height / PreviewBitmap.Width;
             this.PreviewImg.Source = PreviewBitmap;
             if (G.TGAImageReplaceList.ContainsKey(CurTGAName))
@@ -99,7 +98,7 @@ namespace Threshold_Miku_Customizer_2
         private void NewBackground_Click(object sender, RoutedEventArgs e)
         {
             var ofd = new Microsoft.Win32.OpenFileDialog();
-            ofd.Filter = "Supported Image|*.jpg;*.png";
+            ofd.Filter = "JPEG Image|*.jpg";
             if (ofd.ShowDialog()!=true)
                 return;
             G.TGAImageReplaceList[(string)ImgSelector.SelectedItem] = ofd.FileName;
@@ -150,7 +149,7 @@ namespace Threshold_Miku_Customizer_2
                 File.Delete(string.Format("{0}.tga", TGAPartPath));
                 System.IO.File.Move(string.Format("{0}.tmc2.bak", TGAPartPath), string.Format("{0}.tga", TGAPartPath));
             }
-            if((string)ImgSelector.SelectedItem==MainBG&&Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
+            if((string)ImgSelector.SelectedItem==G.MainBG&&Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
                 G.CopyDirectory(".\\Customization\\Backup\\WebPageStyle", ".\\");
 
             //MusicPlayerPanel
@@ -191,6 +190,43 @@ namespace Threshold_Miku_Customizer_2
                  G.MainContentBaseColor.G,
                  G.MainContentBaseColor.B);
             this.MainContentUpating.Background = new SolidColorBrush(MediaColor);
+        }
+
+        private void SaveSettings_Click(object sender, RoutedEventArgs e)
+        {
+            JObject PendingSave = new JObject();
+            foreach(IModifier Modifier in G.ModifierList)
+            {
+                Modifier.Save(ref PendingSave);
+            }
+            string PendingSaveString = Newtonsoft.Json.JsonConvert.SerializeObject(PendingSave);
+            var ofd = new Microsoft.Win32.SaveFileDialog();
+            ofd.Filter = "Saved JSON|*.json";
+            if (ofd.ShowDialog() != true)
+                return;
+            StreamWriter PendingSaveWriter = File.CreateText(ofd.FileName);
+            PendingSaveWriter.Write(PendingSaveString);
+            PendingSaveWriter.Close();
+        }
+
+        private void LoadSettings_Click(object sender, RoutedEventArgs e)
+        {
+            var ofd = new Microsoft.Win32.SaveFileDialog();
+            ofd.Filter = "Saved JSON|*.json";
+            if (ofd.ShowDialog() != true)
+                return;
+            string LoadedStr = File.ReadAllText(ofd.FileName);
+            var Serializer = new Newtonsoft.Json.JsonSerializer();
+            JObject LoadedObj = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(LoadedStr);
+            if(LoadedObj==null)
+            {
+                MessageBox.Show(Application.Current.FindResource("LoadSettingsFailed").ToString(), "TMC2", MessageBoxButton.OK, MessageBoxImage.Error); ;
+                return;
+            }
+            foreach (IModifier Modifier in G.ModifierList)
+            {
+                Modifier.Load(LoadedObj);
+            }
         }
     }
 }

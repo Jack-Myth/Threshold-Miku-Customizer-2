@@ -14,6 +14,7 @@ namespace Threshold_Miku_Customizer_2
     {
         [DllImport("kernel32")]
         public static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
+        public delegate void OnReplacingFile(string NewFile, string FileToBeReplaced);
 
         //Special Image
         public const string MainBG = "MainBG";
@@ -161,8 +162,8 @@ namespace Threshold_Miku_Customizer_2
     {
         void Apply();
         void Save(ref JObject SavedData);
-        void Load(ref JObject SavedData);
-        void Reset(object ContextWindow);
+        void Load(JObject SavedData);
+        void Reset();
     }
 
     public class BackgroundImageModifier : IModifier
@@ -182,14 +183,44 @@ namespace Threshold_Miku_Customizer_2
                 System.IO.File.Delete(string.Format("{0}.tga", TGAPartPath));
                 m_TGA.SaveImage(string.Format("{0}.tga", TGAPartPath));
             }
+            if (System.IO.Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
+            {
+                G.CopyDirectory(".\\Customization\\Backup\\WebPageStyle", ".\\");
+            }
+            else
+            {
+                Directory.CreateDirectory(".\\Customization\\Backup\\WebPageStyle\\resource");
+                File.Copy(".\\resource\\webkit.css", ".\\Customization\\Backup\\WebPageStyle\\resource\\webkit.css");
+            }
+            Directory.CreateDirectory(".\\Customization\\Backup\\WebPageStyle\\resource");
+            File.Copy(".\\resource\\webkit.css", ".\\Customization\\Backup\\WebPageStyle\\resource\\webkit.css");
         }
 
-        public void Load(ref JObject SavedData)
+        public static string GetTempFilePathWithExtension(string extension)
         {
-            throw new NotImplementedException();
+            var path = Path.GetTempPath();
+            var fileName = Guid.NewGuid().ToString() + extension;
+            return Path.Combine(path, fileName);
         }
 
-        public void Reset(object ContextWindow)
+        public void Load(JObject SavedData)
+        {
+            JObject ImagesObj = SavedData["BackgroundImages"] as JObject;
+            if(ImagesObj==null)
+            {
+                return;
+            }
+            foreach(var KV in ImagesObj)
+            {
+                string TempImage = GetTempFilePathWithExtension(".jpg");
+                FileStream TempImageFile = File.Create(TempImage);
+                byte[] ImgData = Convert.FromBase64String(KV.Value.ToString());
+                TempImageFile.Write(ImgData,0, ImgData.Length);
+                G.TGAImageReplaceList[KV.Key] = TempImage;
+            }
+        }
+
+        public void Reset()
         {
             //Reset All Images
             //Image
@@ -208,7 +239,18 @@ namespace Threshold_Miku_Customizer_2
 
         public void Save(ref JObject SavedData)
         {
-            throw new NotImplementedException();
+            JObject ImgsObj = new JObject();
+            foreach (KeyValuePair<string, string> TGAReplaceItem in G.TGAImageReplaceList)
+            {
+                if (TGAReplaceItem.Value == "")
+                    continue;
+                byte[] ImgBytes = File.ReadAllBytes(TGAReplaceItem.Value);
+                if (ImgBytes.Length > 0)
+                {
+                    ImgsObj[TGAReplaceItem.Key] = Convert.ToBase64String(ImgBytes);
+                }
+            }
+            SavedData["BackgroundImages"] = ImgsObj;
         }
     }
 
@@ -241,19 +283,22 @@ namespace Threshold_Miku_Customizer_2
             }
         }
 
-        public void Load(ref JObject SavedData)
+        public void Load(JObject SavedData)
         {
-            throw new NotImplementedException();
+            if (SavedData["CollapsedSideBar"] != null)
+            {
+                G.MainWindow.CollapsedSideBar.IsChecked = SavedData["CollapsedSideBar"].ToObject<bool>();
+            }
         }
 
-        public void Reset(object ContextWindow)
+        public void Reset()
         {
             G.MainWindow.CollapsedSideBar.IsChecked = false;
         }
 
         public void Save(ref JObject SavedData)
         {
-            throw new NotImplementedException();
+            SavedData["CollapsedSideBar"] = G.MainWindow.CollapsedSideBar.IsChecked;
         }
     }
 
@@ -263,14 +308,6 @@ namespace Threshold_Miku_Customizer_2
         {
             //WebPage Style
             string Base64ImgBak = G.GetContentByMark(".\\resource\\webkit.css", "Background");
-            if (System.IO.Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
-            {
-                File.Delete(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg");
-                G.CopyDirectory(".\\Customization\\Backup\\WebPageStyle", ".\\");
-                Directory.Delete(".\\Customization\\Backup\\WebPageStyle", true);
-            }
-            Directory.CreateDirectory(".\\Customization\\Backup\\WebPageStyle\\resource");
-            File.Copy(".\\resource\\webkit.css", ".\\Customization\\Backup\\WebPageStyle\\resource\\webkit.css");
             switch (G.MainWindow.WebPageStyle.SelectedIndex)
             {
                 case 0:
@@ -292,19 +329,22 @@ namespace Threshold_Miku_Customizer_2
             }
         }
 
-        public void Load(ref JObject SavedData)
+        public void Load(JObject SavedData)
         {
-            throw new NotImplementedException();
+            if (SavedData["WebPageStyle"] != null)
+            {
+                G.MainWindow.WebPageStyle.SelectedIndex = SavedData["WebPageStyle"].ToObject<int>();
+            }
         }
 
-        public void Reset(object ContextWindow)
+        public void Reset()
         {
             G.MainWindow.WebPageStyle.SelectedIndex = 0;
         }
 
         public void Save(ref JObject SavedData)
         {
-            throw new NotImplementedException();
+            SavedData["WebPageStyle"] = G.MainWindow.WebPageStyle.SelectedIndex;
         }
     }
 
@@ -334,12 +374,20 @@ namespace Threshold_Miku_Customizer_2
             catch (Exception) { }
         }
 
-        public void Load(ref JObject SavedData)
+        public void Load(JObject SavedData)
         {
-            throw new NotImplementedException();
+            JObject MyData = SavedData["BlurBrightness"] as JObject;
+            if(MyData==null)
+            {
+                return;
+            }
+            G.MainWindow.GameListBlur.Value = MyData["GameListBlur"].ToObject<double>();
+            G.MainWindow.MainContentBlur.Value = MyData["MainContentBlur"].ToObject<double>();
+            G.MainWindow.MainContentBrightness.Value = MyData["MainContentBrightness"].ToObject<double>();
+            G.MainWindow.WebPageBrightness.Value = MyData["WebPageBrightness"].ToObject<double>();
         }
 
-        public void Reset(object ContextWindow)
+        public void Reset()
         {
             G.MainWindow.GameListBlur.Value = 5;
             G.MainWindow.MainContentBlur.Value = 10;
@@ -349,7 +397,12 @@ namespace Threshold_Miku_Customizer_2
 
         public void Save(ref JObject SavedData)
         {
-            throw new NotImplementedException();
+            JObject MyData = new JObject();
+            MyData["GameListBlur"] = G.MainWindow.GameListBlur.Value;
+            MyData["MainContentBlur"] = G.MainWindow.MainContentBlur.Value;
+            MyData["MainContentBrightness"] = G.MainWindow.MainContentBrightness.Value;
+            MyData["WebPageBrightness"] = G.MainWindow.WebPageBrightness.Value;
+            SavedData["BlurBrightness"] = MyData;
         }
     }
 
@@ -370,19 +423,22 @@ namespace Threshold_Miku_Customizer_2
             }
         }
 
-        public void Load(ref JObject SavedData)
+        public void Load(JObject SavedData)
         {
-            throw new NotImplementedException();
+            if (SavedData["ShowLWD"] != null)
+            {
+                G.MainWindow.ShowLWD.IsChecked = SavedData["ShowLWD"].ToObject<bool>();
+            }
         }
 
-        public void Reset(object ContextWindow)
+        public void Reset()
         {
             G.MainWindow.ShowLWD.IsChecked = true;
         }
 
         public void Save(ref JObject SavedData)
         {
-            throw new NotImplementedException();
+            SavedData["ShowLWD"] = G.MainWindow.ShowLWD.IsChecked;
         }
     }
 
@@ -397,13 +453,6 @@ namespace Threshold_Miku_Customizer_2
                 if (G.TGAImageReplaceList[G.MainBG] != "")
                 {
                     //Webkit Base64
-                    //Backup First
-                    if (!Directory.Exists(".\\Customization\\Backup\\WebPageStyle"))
-                    {
-                        Directory.CreateDirectory(".\\Customization\\Backup\\WebPageStyle\\resource");
-                        File.Copy(".\\resource\\webkit.css", ".\\Customization\\Backup\\WebPageStyle\\resource\\webkit.css");
-                        File.WriteAllText(".\\Customization\\Backup\\WebPageStyle\\.CustomizerCfg", WebPageStyle.SelectedIndex.ToString());
-                    }
                     try
                     {
                         var fileInfo = new FileInfo(G.TGAImageReplaceList[G.MainBG]);
@@ -435,20 +484,14 @@ namespace Threshold_Miku_Customizer_2
             }
         }
 
-        public void Load(ref JObject SavedData)
-        {
-            throw new NotImplementedException();
-        }
+        public void Load(JObject SavedData)
+        {}
 
-        public void Reset(object ContextWindow)
-        {
-            throw new NotImplementedException();
-        }
+        public void Reset()
+        {}
 
         public void Save(ref JObject SavedData)
-        {
-            throw new NotImplementedException();
-        }
+        {}
     }
 
     class FontModifier : IModifier
@@ -477,12 +520,21 @@ namespace Threshold_Miku_Customizer_2
             }
         }
 
-        public void Load(ref JObject SavedData)
+        public void Load(JObject SavedData)
         {
-            throw new NotImplementedException();
+            JObject FontSettings = SavedData["FontSettings"] as JObject;
+            if(FontSettings == null)
+            {
+                return;
+            }
+            G.FontSettings.Clear();
+            foreach (var KV in FontSettings)
+            {
+                G.FontSettings[KV.Key] = KV.Value.ToString();
+            }
         }
 
-        public void Reset(object ContextWindow)
+        public void Reset()
         {
             //Fonts
             G.FontSettings.Clear();
@@ -490,7 +542,12 @@ namespace Threshold_Miku_Customizer_2
 
         public void Save(ref JObject SavedData)
         {
-            throw new NotImplementedException();
+            JObject FontSettings = new JObject();
+            foreach (var KV in G.FontSettings)
+            {
+                FontSettings[KV.Key] = KV.Value;
+            }
+            SavedData["FontSettings"] = FontSettings;
         }
     }
 }
