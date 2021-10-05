@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -42,10 +43,26 @@ namespace Threshold_Miku_Customizer_2
             string v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             try
             {
-                if (System.IO.File.Exists(".\\Customization\\Backup\\" + v))
-                    System.IO.Directory.Delete(".\\Customization\\Backup");
+                if (System.IO.File.Exists(".\\Customization\\Backup\\.ver"))
+                {
+                    StreamReader Reader = File.OpenText(".\\Customization\\Backup\\.ver");
+                    string Ver = Reader.ReadToEnd();
+                    if(Ver!=v)
+                    {
+                        System.IO.Directory.Delete(".\\Customization\\Backup");
+                    }
+                }
             }
             catch (Exception){ }
+
+            G.RegisterModifier<BackgroundImageModifier>();
+            G.RegisterModifier<SidebarModifier>();
+            G.RegisterModifier<WebPageModifier>();
+            G.RegisterModifier<BlurBrightnessModifier>();
+            G.RegisterModifier<ShowLWDModifier>();
+            G.RegisterModifier<SpecialImgModifier>();
+            G.RegisterModifier<FontModifier>();
+
             mTimer = new DispatcherTimer();
             mTimer.Interval = TimeSpan.FromSeconds(2);
             mTimer.Tick += ShowMainWindow;
@@ -54,8 +71,8 @@ namespace Threshold_Miku_Customizer_2
 
         public void ShowMainWindow(object sender, EventArgs e)
         {
-            new MainWindow().Show();
             mTimer.Stop();
+            new MainWindow().Show();
             Close();
         }
     }
