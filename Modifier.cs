@@ -16,6 +16,8 @@ namespace Threshold_Miku_Customizer_2
         public static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
         public delegate void OnReplacingFile(string NewFile, string FileToBeReplaced);
 
+        public static List<string> CachedFileList = new List<string>();
+
         //Special Image
         public const string MainBG = "MainBG";
 
@@ -198,7 +200,9 @@ namespace Threshold_Miku_Customizer_2
         {
             var path = Path.GetTempPath();
             var fileName = Guid.NewGuid().ToString() + extension;
-            return Path.Combine(path, fileName);
+            string result = Path.Combine(path, fileName);
+            G.CachedFileList.Add(result);
+            return result;
         }
 
         public void Load(JObject SavedData)
