@@ -24,6 +24,7 @@ namespace Threshold_Miku_Customizer_2
     public partial class Logo : Window
     {
         DispatcherTimer  mTimer;
+        MainWindow CurMainWindow;
         public Logo()
         {
             InitializeComponent();
@@ -54,7 +55,7 @@ namespace Threshold_Miku_Customizer_2
                 }
             }
             catch (Exception){ }
-
+            CurMainWindow = new MainWindow();
             G.RegisterModifier<BackgroundImageModifier>();
             G.RegisterModifier<SidebarModifier>();
             G.RegisterModifier<WebPageModifier>();
@@ -64,7 +65,7 @@ namespace Threshold_Miku_Customizer_2
             G.RegisterModifier<FontModifier>();
 
             mTimer = new DispatcherTimer();
-            mTimer.Interval = TimeSpan.FromSeconds(2);
+            mTimer.Interval = TimeSpan.FromSeconds(1);
             mTimer.Tick += ShowMainWindow;
             mTimer.Start();
         }
@@ -72,7 +73,7 @@ namespace Threshold_Miku_Customizer_2
         public void ShowMainWindow(object sender, EventArgs e)
         {
             mTimer.Stop();
-            new MainWindow().Show();
+            CurMainWindow.Show();
             Close();
         }
     }

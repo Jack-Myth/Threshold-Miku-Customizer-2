@@ -47,4 +47,5 @@
     <sys:String x:Key="SaveSettings">保存设置</sys:String>
     <sys:String x:Key="LoadSettings">读取设置</sys:String>
     <sys:String x:Key="LoadSettingsFailed">读取设置失败!</sys:String>
+    <sys:String x:Key="SaveBeforeExit">退出之前是否要保存？</sys:String>
 </ResourceDictionary>

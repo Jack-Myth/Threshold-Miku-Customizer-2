@@ -43,6 +43,8 @@ namespace Threshold_Miku_Customizer_2
 
         public static MainWindow MainWindow;
 
+        public static bool PendingSave = false;
+
         //Image:Res
         public static Dictionary<string, string> ImageResList = new Dictionary<string, string>();
 
@@ -56,6 +58,7 @@ namespace Threshold_Miku_Customizer_2
                 ModifierList = new List<IModifier>();
             T Modifier = new T();
             ModifierList.Add(Modifier);
+            Modifier.Init();
             return Modifier;
 
         }
@@ -158,10 +161,16 @@ namespace Threshold_Miku_Customizer_2
                 throw new OverflowException("Mark:" + Mark + " is not closed at File:" + FilePath);
             return FileContent.Substring(BeginIndex + BeginMark.Length, EndIndex - BeginIndex - BeginMark.Length);
         }
+
+        public static void NotifyPendingSave(object sender, EventArgs e)
+        {
+            G.PendingSave = true;
+        }
     }
 
     interface IModifier
     {
+        void Init();
         void Apply();
         void Save(ref JObject SavedData);
         void Load(JObject SavedData);
@@ -170,6 +179,8 @@ namespace Threshold_Miku_Customizer_2
 
     public class BackgroundImageModifier : IModifier
     {
+        public void Init()
+        {}
         public void Apply()
         {
             //Image
@@ -258,6 +269,11 @@ namespace Threshold_Miku_Customizer_2
 
     public class SidebarModifier : IModifier
     {
+        public void Init()
+        {
+            G.MainWindow.CollapsedSideBar.Checked += G.NotifyPendingSave;
+            G.MainWindow.CollapsedSideBar.Unchecked += G.NotifyPendingSave;
+        }
         public void Apply()
         {
             //Collapsed Sidebar
@@ -348,6 +364,11 @@ namespace Threshold_Miku_Customizer_2
         {
             SavedData["WebPageStyle"] = G.MainWindow.WebPageStyle.SelectedIndex;
         }
+
+        public void Init()
+        {
+            G.MainWindow.WebPageStyle.SelectionChanged += G.NotifyPendingSave;
+        }
     }
 
     class BlurBrightnessModifier : IModifier
@@ -416,6 +437,14 @@ namespace Threshold_Miku_Customizer_2
             MyData["MainContentBaseColor"] = System.Drawing.ColorTranslator.ToHtml(G.MainContentBaseColor);
             SavedData["BlurBrightness"] = MyData;
         }
+
+        public void Init()
+        {
+            G.MainWindow.WebPageBrightness.ValueChanged += G.NotifyPendingSave;
+            G.MainWindow.MainContentBrightness.ValueChanged += G.NotifyPendingSave;
+            G.MainWindow.MainContentBlur.ValueChanged += G.NotifyPendingSave;
+            G.MainWindow.GameListBlur.ValueChanged += G.NotifyPendingSave;
+        }
     }
 
     class ShowLWDModifier : IModifier
@@ -451,6 +480,12 @@ namespace Threshold_Miku_Customizer_2
         public void Save(ref JObject SavedData)
         {
             SavedData["ShowLWD"] = G.MainWindow.ShowLWD.IsChecked;
+        }
+
+        public void Init()
+        {
+            G.MainWindow.ShowLWD.Checked += G.NotifyPendingSave;
+            G.MainWindow.ShowLWD.Unchecked += G.NotifyPendingSave;
         }
     }
 
@@ -503,6 +538,9 @@ namespace Threshold_Miku_Customizer_2
         {}
 
         public void Save(ref JObject SavedData)
+        {}
+
+        public void Init()
         {}
     }
 
@@ -561,5 +599,8 @@ namespace Threshold_Miku_Customizer_2
             }
             SavedData["FontSettings"] = FontSettings;
         }
+
+        public void Init()
+        {}
     }
 }

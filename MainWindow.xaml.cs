@@ -123,6 +123,7 @@ namespace Threshold_Miku_Customizer_2
                 return;
             G.TGAImageReplaceList[(string)ImgSelector.SelectedItem] = ofd.FileName;
             UpdateReplaceLabel();
+            G.PendingSave = true;
         }
 
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
@@ -197,6 +198,7 @@ namespace Threshold_Miku_Customizer_2
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new FontsSetting(ref G.FontSettings).ShowDialog();
+            G.PendingSave = true;
         }
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
@@ -215,12 +217,13 @@ namespace Threshold_Miku_Customizer_2
                  G.MainContentBaseColor.G,
                  G.MainContentBaseColor.B);
             this.MainContentUpating.Background = new SolidColorBrush(MediaColor);
+            G.PendingSave = true;
         }
 
-        private void SaveSettings_Click(object sender, RoutedEventArgs e)
+        bool AskForSave()
         {
             JObject PendingSave = new JObject();
-            foreach(IModifier Modifier in G.ModifierList)
+            foreach (IModifier Modifier in G.ModifierList)
             {
                 Modifier.Save(ref PendingSave);
             }
@@ -228,10 +231,17 @@ namespace Threshold_Miku_Customizer_2
             var ofd = new Microsoft.Win32.SaveFileDialog();
             ofd.Filter = "Saved JSON|*.json";
             if (ofd.ShowDialog() != true)
-                return;
+                return false;
             StreamWriter PendingSaveWriter = File.CreateText(ofd.FileName);
             PendingSaveWriter.Write(PendingSaveString);
             PendingSaveWriter.Close();
+            G.PendingSave = false;
+            return true;
+        }
+
+        private void SaveSettings_Click(object sender, RoutedEventArgs e)
+        {
+            AskForSave();
         }
 
         private void LoadSettings_Click(object sender, RoutedEventArgs e)
@@ -263,6 +273,18 @@ namespace Threshold_Miku_Customizer_2
             {
                 string Arg = $"/select,\"{G.TGAImageReplaceList[CurTGAName]}\"";
                 System.Diagnostics.Process.Start("explorer.exe", Arg);
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if(G.PendingSave)
+            {
+                var Result = MessageBox.Show(Application.Current.FindResource("SaveBeforeExit").ToString(), "TMC2", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if((Result==MessageBoxResult.Yes&&!AskForSave())||Result==MessageBoxResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
             }
         }
     }
