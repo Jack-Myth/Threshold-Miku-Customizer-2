@@ -229,6 +229,7 @@ namespace Threshold_Miku_Customizer_2
                 FileStream TempImageFile = File.Create(TempImage);
                 byte[] ImgData = Convert.FromBase64String(KV.Value.ToString());
                 TempImageFile.Write(ImgData,0, ImgData.Length);
+                TempImageFile.Close();
                 G.TGAImageReplaceList[KV.Key] = TempImage;
             }
         }
