@@ -5,12 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Threshold_Miku_Customizer_2"
         mc:Ignorable="d"
-        Title="{StaticResource AppTitle}" Height="686.529" Width="320" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico" Closing="Window_Closing">
+        Title="{StaticResource AppTitle}" Height="686.529" Width="327" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico" Closing="Window_Closing">
     <Grid Margin="0,0,0,0.5" HorizontalAlignment="Left" Width="314">
         <StackPanel Margin="27,10,27,166" Orientation="Vertical">
-            <Image x:Name="PreviewImg" Height="175" VerticalAlignment="Top" Width="260" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Source="TMC2.png"/>
-            <ComboBox x:Name="ImgSelector" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="ImgSelector_SelectionChanged"/>
+            <Image x:Name="PreviewImg" 
+                   Height="175" 
+                   Width="260" 
+                   RenderTransformOrigin="0.5,0.5" 
+                   Source="TMC2.png" 
+                   UseLayoutRounding="True"
+                   ToolTipService.InitialShowDelay="100"
+                   ToolTipService.BetweenShowDelay="100">
+                <Image.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="PreviewFullImg"/>
+                    </StackPanel>
+                </Image.ToolTip>
+            </Image>
             <TextBlock x:Name="ReplacedByLabel" Text="{StaticResource ChooseImg}" Height="32" Width="260" HorizontalAlignment="Center" MouseDown="ReplacedByLabel_MouseDown"/>
+            <ComboBox x:Name="ImgSelector" HorizontalAlignment="Center" Margin="0,10,0,0" Width="240" SelectionChanged="ImgSelector_SelectionChanged"/>
         </StackPanel>
         <Button x:Name="NewBackground" Content="{StaticResource NewBG}" HorizontalAlignment="Center" Margin="61,254,61,0" VerticalAlignment="Top" Width="192" Click="NewBackground_Click" Grid.ColumnSpan="2" IsEnabled="False"/>
         <GroupBox Header="{StaticResource Customization}" Margin="10,278,10,89" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">

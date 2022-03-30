@@ -69,6 +69,8 @@ namespace Threshold_Miku_Customizer_2
                 if (sres.ToString() != "")
                     G.ImageResList.Add(TGAImage, sres.ToString());
             }
+            RenderOptions.SetBitmapScalingMode(this.PreviewImg, BitmapScalingMode.Fant);
+            ToolTipService.SetIsEnabled(this.PreviewImg, false);
         }
 
         private void UpdateReplaceLabel()
@@ -111,6 +113,8 @@ namespace Threshold_Miku_Customizer_2
             var PreviewBitmap= new BitmapImage(new Uri(System.IO.Path.GetFullPath(string.Format(".\\Previews\\{0}.jpg", G.TGAImageList[CurTGAName]))));
             //this.PreviewImg.Height = PreviewImg.Width * PreviewBitmap.Height / PreviewBitmap.Width;
             this.PreviewImg.Source = PreviewBitmap;
+            ToolTipService.SetIsEnabled(this.PreviewImg, true);
+            this.PreviewFullImg.Source = PreviewBitmap;
             this.NewBackground.IsEnabled = true;
             UpdateReplaceLabel();
         }
@@ -268,7 +272,8 @@ namespace Threshold_Miku_Customizer_2
         private void ReplacedByLabel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             string CurTGAName = (string)this.ImgSelector.SelectedItem;
-            if (G.TGAImageReplaceList.ContainsKey(CurTGAName)&&
+            if (CurTGAName!=null&&
+                G.TGAImageReplaceList.ContainsKey(CurTGAName)&&
                 File.Exists(G.TGAImageReplaceList[CurTGAName]))
             {
                 string Arg = $"/select,\"{G.TGAImageReplaceList[CurTGAName]}\"";

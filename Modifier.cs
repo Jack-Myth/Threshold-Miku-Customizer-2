@@ -20,6 +20,7 @@ namespace Threshold_Miku_Customizer_2
 
         //Special Image
         public const string MainBG = "MainBG";
+        public const string AppPropertiesBG = "AppProperties";
 
         public static System.Drawing.Color MainContentBaseColor;
 
@@ -30,13 +31,18 @@ namespace Threshold_Miku_Customizer_2
             { "BackupWizard", "BackupWizard"},
             { "bg_security_wizard","SecurityWizard"},
             { "CDKeyWizard","CDKeyWizard"},
-            { "GameProperties","GameProperties"},
+            { AppPropertiesBG,"AppProperties"},
             { "InstallAppWizard","InstallAppWizard"},
             { "LoginBG","Login"},
             { "MusicPlayerImg","MusicPlayer"},
             { "OverlayBG","Overlay"},
             { "SettingsDialog","Settings"},
             { "SystemInfo","SystemInfo"}
+        };
+
+        public static readonly List<string>  TGAImageToIgnore = new List<string>
+        {
+            AppPropertiesBG
         };
 
         public static List<IModifier> ModifierList;
@@ -186,7 +192,7 @@ namespace Threshold_Miku_Customizer_2
             //Image
             foreach (KeyValuePair<string, string> TGAReplaceItem in G.TGAImageReplaceList)
             {
-                if (TGAReplaceItem.Value == "")
+                if (TGAReplaceItem.Value == "" || G.TGAImageToIgnore.Contains(TGAReplaceItem.Value))
                     continue;
                 string TGAPartPath = string.Format(".\\graphics\\JackMyth\\{0}", TGAReplaceItem.Key);
                 if (!System.IO.File.Exists(string.Format("{0}.tmc2.bak", TGAPartPath)) && File.Exists(string.Format("{0}.tga", TGAPartPath)))
@@ -225,6 +231,10 @@ namespace Threshold_Miku_Customizer_2
             }
             foreach(var KV in ImagesObj)
             {
+                if(!G.TGAImageList.ContainsKey(KV.Key))
+                {
+                    continue;
+                }
                 string TempImage = GetTempFilePathWithExtension(".jpg");
                 FileStream TempImageFile = File.Create(TempImage);
                 byte[] ImgData = Convert.FromBase64String(KV.Value.ToString());
@@ -521,6 +531,23 @@ namespace Threshold_Miku_Customizer_2
             else
             {
                 G.ReplaceByMark(".\\resource\\webkit.css", "Background", Base64ImgBak);
+            }
+
+            if (G.TGAImageReplaceList.Keys.Contains(G.AppPropertiesBG))
+            {
+                if (G.TGAImageReplaceList[G.AppPropertiesBG] != "")
+                {
+                    //Webkit Base64
+                    try
+                    {
+                        var fileInfo = new FileInfo(G.TGAImageReplaceList[G.AppPropertiesBG]);
+                        string Base64Img = "";
+                        byte[] ImgBytes = File.ReadAllBytes(G.TGAImageReplaceList[G.AppPropertiesBG]);
+                        Base64Img = "background:url(data:image/jpeg;base64," + Convert.ToBase64String(ImgBytes) + ");";
+                        G.ReplaceByMark(".\\resource\\webkit.css", "AppPropertiesBackground", Base64Img);
+                    }
+                    catch (Exception) { }
+                }
             }
             //MusicPlayerPanel
             {
