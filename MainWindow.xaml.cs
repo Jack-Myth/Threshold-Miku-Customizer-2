@@ -132,16 +132,11 @@ namespace Threshold_Miku_Customizer_2
 
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach(IModifier Modifier in G.ModifierList)
+            Directory.CreateDirectory(".\\Customization\\Backup\\");
+            File.Copy(".\\Customization\\.ver", ".\\Customization\\Backup\\.ver", true);
+            foreach (IModifier Modifier in G.ModifierList)
             {
                 Modifier.Apply();
-            }
-            if (Directory.Exists(".\\Customization\\Backup"))
-            {
-                string v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                StreamWriter VerFile = File.CreateText(".\\Customization\\Backup\\.ver");
-                VerFile.Write(v);
-                VerFile.Close();
             }
             MessageBox.Show(Application.Current.FindResource("ApplySucceed").ToString());
         }

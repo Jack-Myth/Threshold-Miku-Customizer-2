@@ -33,6 +33,7 @@ namespace Threshold_Miku_Customizer_2
             { "CDKeyWizard","CDKeyWizard"},
             { AppPropertiesBG,"AppProperties"},
             { "InstallAppWizard","InstallAppWizard"},
+            { "UseOffline","UseOffline"},
             { "LoginBG","Login"},
             { "MusicPlayerImg","MusicPlayer"},
             { "OverlayBG","Overlay"},

@@ -15,7 +15,8 @@
                    Source="TMC2.png" 
                    UseLayoutRounding="True"
                    ToolTipService.InitialShowDelay="100"
-                   ToolTipService.BetweenShowDelay="100">
+                   ToolTipService.BetweenShowDelay="100"
+                   ToolTipService.ShowDuration="60000">
                 <Image.ToolTip>
                     <StackPanel Orientation="Horizontal">
                         <Image x:Name="PreviewFullImg"/>

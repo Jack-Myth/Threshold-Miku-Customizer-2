@@ -41,17 +41,18 @@ namespace Threshold_Miku_Customizer_2
                 Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
                 Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
             }
-            string v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             try
             {
+                string v = File.ReadAllText(".\\Customization\\.ver");            
                 if (System.IO.File.Exists(".\\Customization\\Backup\\.ver"))
                 {
-                    StreamReader Reader = File.OpenText(".\\Customization\\Backup\\.ver");
-                    string Ver = Reader.ReadToEnd();
+                    string Ver = File.ReadAllText(".\\Customization\\Backup\\.ver");
                     if(Ver!=v)
                     {
-                        System.IO.Directory.Delete(".\\Customization\\Backup");
+                        MessageBox.Show(Application.Current.FindResource("DoNotOverrideSkin").ToString(), "TMC2", MessageBoxButton.OK, MessageBoxImage.Error);
+                        Application.Current.Shutdown();
                     }
+
                 }
             }
             catch (Exception){ }

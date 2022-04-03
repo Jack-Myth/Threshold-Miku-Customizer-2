@@ -48,4 +48,5 @@
     <sys:String x:Key="LoadSettings">读取设置</sys:String>
     <sys:String x:Key="LoadSettingsFailed">读取设置失败!</sys:String>
     <sys:String x:Key="SaveBeforeExit">退出之前是否要保存？</sys:String>
+    <sys:String x:Key="DoNotOverrideSkin">不要用覆盖旧版本的方式更新皮肤！删掉旧皮肤然后重新安装.</sys:String>
 </ResourceDictionary>
