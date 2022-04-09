@@ -125,6 +125,25 @@ namespace Threshold_Miku_Customizer_2
             ofd.Filter = "JPEG Image|*.jpg";
             if (ofd.ShowDialog()!=true)
                 return;
+            if(ofd.FileName.EndsWith(".jpg"))
+            {
+                // 真的是JPG吗?
+                var FileStreaming = System.IO.File.OpenRead(ofd.FileName);
+                if(FileStreaming == null)
+                {
+                    return;
+                }
+                else
+                {
+                    byte[] JPGHeader = new byte[2];
+                    FileStreaming.Read(JPGHeader, 0, 2);
+                    if (!JPGHeader[0].Equals(0xFF)|| !JPGHeader[1].Equals(0xD8))
+                    {
+                        MessageBox.Show(Application.Current.FindResource("FormatNotJPG").ToString() , "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+                }
+            }
             G.TGAImageReplaceList[(string)ImgSelector.SelectedItem] = ofd.FileName;
             UpdateReplaceLabel();
             G.PendingSave = true;
