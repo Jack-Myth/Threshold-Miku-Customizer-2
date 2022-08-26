@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Threshold_Miku_Customizer_2"
         mc:Ignorable="d"
-        Title="{StaticResource AppTitle}" Height="686.529" Width="327" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico" Closing="Window_Closing">
-    <Grid Margin="0,0,0,0.5" HorizontalAlignment="Left" Width="314">
-        <StackPanel Margin="27,10,27,166" Orientation="Vertical">
-            <Image x:Name="PreviewImg" 
+        Title="{StaticResource AppTitle}" Width="327" WindowStyle="ToolWindow" ResizeMode="NoResize" Icon="TMC2.ico" Closing="Window_Closing" SizeToContent="Height">
+    <Grid Margin="0,0,0,0.5" HorizontalAlignment="Left" Width="314" VerticalAlignment="Top">
+        <StackPanel>
+            <StackPanel Margin="27,10,27,0" Orientation="Vertical" VerticalAlignment="Top">
+                <Image x:Name="PreviewImg" 
                    Height="175" 
                    Width="260" 
                    RenderTransformOrigin="0.5,0.5" 
@@ -17,54 +18,106 @@
                    ToolTipService.InitialShowDelay="100"
                    ToolTipService.BetweenShowDelay="100"
                    ToolTipService.ShowDuration="60000">
-                <Image.ToolTip>
-                    <StackPanel Orientation="Horizontal">
-                        <Image x:Name="PreviewFullImg"/>
+                    <Image.ToolTip>
+                        <StackPanel Orientation="Horizontal">
+                            <Image x:Name="PreviewFullImg"/>
+                        </StackPanel>
+                    </Image.ToolTip>
+                </Image>
+                <TextBlock x:Name="ReplacedByLabel" Text="{StaticResource ChooseImg}" Height="32" Width="260" HorizontalAlignment="Center" MouseDown="ReplacedByLabel_MouseDown"/>
+                <ComboBox x:Name="ImgSelector" HorizontalAlignment="Center" Margin="0,10,0,0" Width="240" SelectionChanged="ImgSelector_SelectionChanged"/>
+            </StackPanel>
+            <Button x:Name="NewBackground" Content="{StaticResource NewBG}" HorizontalAlignment="Center" Margin="61,10,61,10" VerticalAlignment="Top" Width="192" Click="NewBackground_Click" Grid.ColumnSpan="2" IsEnabled="False"/>
+            <GroupBox Header="{StaticResource Customization}" Margin="10,0,10,0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Top">
+                <Grid Margin="0">
+                    <StackPanel Margin="10,10,10,0">
+                        <CheckBox x:Name="CollapsedSideBar" Content="{StaticResource CollapsedSidebar}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="262" Grid.ColumnSpan="2"/>
+                        <ComboBox x:Name="WebPageStyle" VerticalAlignment="Top" SelectedIndex="0">
+                            <ComboBoxItem Content="{StaticResource NewWebpageWithURL}"/>
+                            <ComboBoxItem Content="{StaticResource NewWebpageWithoutURL}"/>
+                            <ComboBoxItem Content="{StaticResource OriginalWebpage}"/>
+                        </ComboBox>
+                        <GroupBox Header="{StaticResource LibraryBlur}" VerticalAlignment="Top">
+                            <StackPanel>
+                                <Grid Margin="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Content="{StaticResource GameList}"/>
+                                    <Slider Grid.Column="1" x:Name="GameListBlur" Margin="0,7,0,0" SmallChange="0" Value="5"/>
+                                </Grid>
+                                <Grid Margin="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Content="{StaticResource MainContent}"/>
+                                    <Slider Grid.Column="1" x:Name="MainContentBlur" Value="10" SmallChange="1"/>
+                                </Grid>
+                            </StackPanel>
+                        </GroupBox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="{StaticResource MainContentBrightness}" HorizontalAlignment="Left" Width="131"/>
+                            <Slider Grid.Column="1" x:Name="MainContentBrightness" Value="100" SmallChange="1" Maximum="100" VerticalAlignment="Center" Padding="0,0,2,0" HorizontalContentAlignment="Stretch" UseLayoutRounding="False"/>
+                        </Grid>
+                        <CheckBox x:Name="ShowLWD" Content="{StaticResource ShowLibraryWindowDivider}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="{StaticResource WebPageBrightness}" HorizontalAlignment="Left" Width="126" Margin="10,0,0,0"/>
+                            <Slider Grid.Column="1" x:Name="WebPageBrightness" Value="153" SmallChange="1" Maximum="255"/>
+                        </Grid>
+                        <Button Content="{StaticResource FontsSetting}" Click="Button_Click" Margin="5,0,5,0" VerticalAlignment="Top"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="{StaticResource MainContentUnderpainting}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Button Grid.Column="1" x:Name="MainContentUpating" Content="" Click="MainContentUpating_Click" HorizontalContentAlignment="Stretch" Margin="0,5,5,5"/>
+                        </Grid>
+                        <GroupBox Header="{StaticResource LoginDialog}">
+                            <StackPanel>
+                                <CheckBox x:Name="LoginDialog_ShowSteamLogo" Content="{StaticResource ShowSteamLogo}"/>
+                                <CheckBox x:Name="LoginDialog_InvertSteamLogo" Content="{StaticResource InvertSteamLogoColor}"/>
+                            </StackPanel>
+                        </GroupBox>
                     </StackPanel>
-                </Image.ToolTip>
-            </Image>
-            <TextBlock x:Name="ReplacedByLabel" Text="{StaticResource ChooseImg}" Height="32" Width="260" HorizontalAlignment="Center" MouseDown="ReplacedByLabel_MouseDown"/>
-            <ComboBox x:Name="ImgSelector" HorizontalAlignment="Center" Margin="0,10,0,0" Width="240" SelectionChanged="ImgSelector_SelectionChanged"/>
-        </StackPanel>
-        <Button x:Name="NewBackground" Content="{StaticResource NewBG}" HorizontalAlignment="Center" Margin="61,254,61,0" VerticalAlignment="Top" Width="192" Click="NewBackground_Click" Grid.ColumnSpan="2" IsEnabled="False"/>
-        <GroupBox Header="{StaticResource Customization}" Margin="10,278,10,89" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-            <Grid Margin="0">
-                <CheckBox x:Name="CollapsedSideBar" Content="{StaticResource CollapsedSidebar}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="262" Grid.ColumnSpan="2"/>
-                <ComboBox x:Name="WebPageStyle" Margin="10,30,10,0" VerticalAlignment="Top" SelectedIndex="0">
-                    <ComboBoxItem Content="{StaticResource NewWebpageWithURL}"/>
-                    <ComboBoxItem Content="{StaticResource NewWebpageWithoutURL}"/>
-                    <ComboBoxItem Content="{StaticResource OriginalWebpage}"/>
-                </ComboBox>
-                <GroupBox Header="{StaticResource LibraryBlur}" Height="78" Margin="10,56,10,0" VerticalAlignment="Top">
-                    <Grid Margin="0">
-                        <Label Content="{StaticResource GameList}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="89"/>
-                        <Slider x:Name="GameListBlur" Margin="94,7,0,0" VerticalAlignment="Top" SmallChange="0" Value="5"/>
-                        <Label Content="{StaticResource MainContent}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="89" Margin="0,25,0,0"/>
-                        <Slider x:Name="MainContentBlur" Margin="94,32,0,0" VerticalAlignment="Top" Value="10" SmallChange="1"/>
-                    </Grid>
-                </GroupBox>
-                <Label Content="{StaticResource MainContentBrightness}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="131" Margin="10,134,0,0"/>
-                <Slider x:Name="MainContentBrightness" Margin="141,139,10,0" VerticalAlignment="Top" Value="100" SmallChange="1" Maximum="100"/>
-                <CheckBox x:Name="ShowLWD" Content="{StaticResource ShowLibraryWindowDivider}" HorizontalAlignment="Left" Margin="10,186,0,0" VerticalAlignment="Top" IsChecked="True"/>
-                <Label Content="{StaticResource WebPageBrightness}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="10,155,0,0"/>
-                <Slider x:Name="WebPageBrightness" Margin="141,160,10,0" VerticalAlignment="Top" Value="153" SmallChange="1" Maximum="255"/>
-                <Button Content="{StaticResource FontsSetting}" Margin="10,0,10,10.5" VerticalAlignment="Bottom" Click="Button_Click"/>
-                <Label Content="{StaticResource MainContentUnderpainting}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="171" Margin="10,204,0,0"/>
-                <Button x:Name="MainContentUpating" Content="" HorizontalAlignment="Right" Margin="0,206,14,0" VerticalAlignment="Top" Width="76" Click="MainContentUpating_Click"/>
+                </Grid>
+            </GroupBox>
+            <Grid Margin="0,5,0,0" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" x:Name="SaveSettings" Content="{StaticResource SaveSettings}" Margin="10,0,5,0" Click="SaveSettings_Click"/>
+                <Button Grid.Column="1" x:Name="LoadSettings" Content="{StaticResource LoadSettings}" Margin="5,0,10,0" Click="LoadSettings_Click"/>
             </Grid>
-        </GroupBox>
-        <Button x:Name="ApplyButton" Content="{StaticResource Apply}" Margin="10,0,76,10" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" Grid.ColumnSpan="2" Click="ApplyButton_Click"/>
-        <Button x:Name="ResetButton" Content="{StaticResource Reset}" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="61" VerticalContentAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="1" Click="ResetButton_Click">
-            <Button.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="{StaticResource ResetAll}" Click="MenuItemResetAll_Click" />
-                    <MenuItem Header="{StaticResource ResetCurrentPicture}" Click="MenuItemCurrentPicture_Click" />
-                </ContextMenu>
-            </Button.ContextMenu>
-        </Button>
-        <TextBlock Margin="0,0,12,36.5" TextWrapping="Wrap" Text="Designed By JackMyth" VerticalAlignment="Bottom" FontSize="14" TextDecorations="Underline" TextAlignment="Right" Foreground="#FF0006FF" FontStyle="Italic" HorizontalAlignment="Right" MouseDown="TextBlock_MouseDown" Cursor="Hand"/>
-        <Button x:Name="SaveSettings" Content="{StaticResource SaveSettings}" HorizontalAlignment="Left" Margin="14,0,0,60" VerticalAlignment="Bottom" Width="138" Click="SaveSettings_Click"/>
-        <Button x:Name="LoadSettings" Content="{StaticResource LoadSettings}" HorizontalAlignment="Right" Margin="0,0,12,60" VerticalAlignment="Bottom" Width="138" Click="LoadSettings_Click"/>
-
+            <TextBlock Margin="0,5,10,0" TextWrapping="Wrap" Text="Designed By JackMyth" FontSize="14" TextDecorations="Underline" TextAlignment="Right" Foreground="#FF0006FF" FontStyle="Italic" HorizontalAlignment="Right" MouseDown="TextBlock_MouseDown" Cursor="Hand"/>
+            <Grid Margin="0,5,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="ApplyButton" Grid.Column="0" Content="{StaticResource Apply}" Margin="10,0,5,0" VerticalContentAlignment="Bottom" Grid.ColumnSpan="3" Click="ApplyButton_Click"/>
+                <Button x:Name="ResetButton" Grid.Column="3" Content="{StaticResource Reset}" Margin="5,0,10,0" VerticalContentAlignment="Bottom" Click="ResetButton_Click">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{StaticResource ResetAll}" Click="MenuItemResetAll_Click" />
+                            <MenuItem Header="{StaticResource ResetCurrentPicture}" Click="MenuItemCurrentPicture_Click" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>

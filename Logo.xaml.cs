@@ -23,7 +23,7 @@ namespace Threshold_Miku_Customizer_2
     /// </summary>
     public partial class Logo : Window
     {
-        DispatcherTimer  mTimer;
+        DispatcherTimer mTimer;
         MainWindow CurMainWindow;
         public Logo()
         {
@@ -43,11 +43,11 @@ namespace Threshold_Miku_Customizer_2
             }
             try
             {
-                string v = File.ReadAllText(".\\Customization\\.ver");            
+                string v = File.ReadAllText(".\\Customization\\.ver");
                 if (System.IO.File.Exists(".\\Customization\\Backup\\.ver"))
                 {
                     string Ver = File.ReadAllText(".\\Customization\\Backup\\.ver");
-                    if(Ver!=v)
+                    if (Ver != v)
                     {
                         MessageBox.Show(Application.Current.FindResource("DoNotOverrideSkin").ToString(), "TMC2", MessageBoxButton.OK, MessageBoxImage.Error);
                         Application.Current.Shutdown();
@@ -55,7 +55,7 @@ namespace Threshold_Miku_Customizer_2
 
                 }
             }
-            catch (Exception){ }
+            catch (Exception) { }
             CurMainWindow = new MainWindow();
             G.RegisterModifier<BackgroundImageModifier>();
             G.RegisterModifier<SidebarModifier>();
@@ -64,6 +64,7 @@ namespace Threshold_Miku_Customizer_2
             G.RegisterModifier<ShowLWDModifier>();
             G.RegisterModifier<SpecialImgModifier>();
             G.RegisterModifier<FontModifier>();
+            G.RegisterModifier<LoginDialogModifier>();
 
             mTimer = new DispatcherTimer();
             mTimer.Interval = TimeSpan.FromSeconds(1);

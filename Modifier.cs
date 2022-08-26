@@ -21,6 +21,7 @@ namespace Threshold_Miku_Customizer_2
         //Special Image
         public const string MainBG = "MainBG";
         public const string AppPropertiesBG = "AppProperties";
+        public const string NewLoginDialogBG = "NewLoginDialog";
 
         public static System.Drawing.Color MainContentBaseColor;
 
@@ -34,6 +35,7 @@ namespace Threshold_Miku_Customizer_2
             { AppPropertiesBG,"AppProperties"},
             { "InstallAppWizard","InstallAppWizard"},
             { "UseOffline","UseOffline"},
+            { NewLoginDialogBG,"LoginDialog"},
             { "LoginBG","Login"},
             { "MusicPlayerImg","MusicPlayer"},
             { "OverlayBG","Overlay"},
@@ -41,9 +43,10 @@ namespace Threshold_Miku_Customizer_2
             { "SystemInfo","SystemInfo"}
         };
 
-        public static readonly List<string>  TGAImageToIgnore = new List<string>
+        public static readonly List<string> TGAImageToIgnore = new List<string>
         {
-            AppPropertiesBG
+            AppPropertiesBG,
+            NewLoginDialogBG
         };
 
         public static List<IModifier> ModifierList;
@@ -59,9 +62,9 @@ namespace Threshold_Miku_Customizer_2
 
         public static Dictionary<string, string> FontSettings = new Dictionary<string, string>();
 
-        public static T RegisterModifier<T>() where T:IModifier,new()
+        public static T RegisterModifier<T>() where T : IModifier, new()
         {
-            if (ModifierList==null)
+            if (ModifierList == null)
                 ModifierList = new List<IModifier>();
             T Modifier = new T();
             ModifierList.Add(Modifier);
@@ -187,7 +190,7 @@ namespace Threshold_Miku_Customizer_2
     public class BackgroundImageModifier : IModifier
     {
         public void Init()
-        {}
+        { }
         public void Apply()
         {
             //Image
@@ -226,20 +229,20 @@ namespace Threshold_Miku_Customizer_2
         public void Load(JObject SavedData)
         {
             JObject ImagesObj = SavedData["BackgroundImages"] as JObject;
-            if(ImagesObj==null)
+            if (ImagesObj == null)
             {
                 return;
             }
-            foreach(var KV in ImagesObj)
+            foreach (var KV in ImagesObj)
             {
-                if(!G.TGAImageList.ContainsKey(KV.Key))
+                if (!G.TGAImageList.ContainsKey(KV.Key))
                 {
                     continue;
                 }
                 string TempImage = GetTempFilePathWithExtension(".jpg");
                 FileStream TempImageFile = File.Create(TempImage);
                 byte[] ImgData = Convert.FromBase64String(KV.Value.ToString());
-                TempImageFile.Write(ImgData,0, ImgData.Length);
+                TempImageFile.Write(ImgData, 0, ImgData.Length);
                 TempImageFile.Close();
                 G.TGAImageReplaceList[KV.Key] = TempImage;
             }
@@ -412,7 +415,7 @@ namespace Threshold_Miku_Customizer_2
         public void Load(JObject SavedData)
         {
             JObject MyData = SavedData["BlurBrightness"] as JObject;
-            if(MyData==null)
+            if (MyData == null)
             {
                 return;
             }
@@ -550,6 +553,23 @@ namespace Threshold_Miku_Customizer_2
                     catch (Exception) { }
                 }
             }
+
+            if (G.TGAImageReplaceList.Keys.Contains(G.NewLoginDialogBG))
+            {
+                if (G.TGAImageReplaceList[G.NewLoginDialogBG] != "")
+                {
+                    try
+                    {
+                        var fileInfo = new FileInfo(G.TGAImageReplaceList[G.NewLoginDialogBG]);
+                        string Base64Img = "";
+                        byte[] ImgBytes = File.ReadAllBytes(G.TGAImageReplaceList[G.NewLoginDialogBG]);
+                        Base64Img = "background:url(data:image/jpeg;base64," + Convert.ToBase64String(ImgBytes) + ");";
+                        G.ReplaceByMark(".\\resource\\webkit.css", "LoginBackground", Base64Img);
+                    }
+                    catch (Exception) { }
+                }
+            }
+
             //MusicPlayerPanel
             {
                 var m_TGA = new ImageTGA(".\\graphics\\JackMyth\\MusicPlayerImg.tga", true);
@@ -561,16 +581,16 @@ namespace Threshold_Miku_Customizer_2
         }
 
         public void Load(JObject SavedData)
-        {}
+        { }
 
         public void Reset()
-        {}
+        { }
 
         public void Save(ref JObject SavedData)
-        {}
+        { }
 
         public void Init()
-        {}
+        { }
     }
 
     class FontModifier : IModifier
@@ -602,7 +622,7 @@ namespace Threshold_Miku_Customizer_2
         public void Load(JObject SavedData)
         {
             JObject FontSettings = SavedData["FontSettings"] as JObject;
-            if(FontSettings == null)
+            if (FontSettings == null)
             {
                 return;
             }
@@ -630,6 +650,52 @@ namespace Threshold_Miku_Customizer_2
         }
 
         public void Init()
-        {}
+        { }
+    }
+
+    class LoginDialogModifier : IModifier
+    {
+        public void Init()
+        {
+            G.MainWindow.LoginDialog_ShowSteamLogo.Checked += G.NotifyPendingSave;
+            G.MainWindow.LoginDialog_ShowSteamLogo.Checked += G.NotifyPendingSave;
+            G.MainWindow.LoginDialog_InvertSteamLogo.Checked += G.NotifyPendingSave;
+            G.MainWindow.LoginDialog_InvertSteamLogo.Checked += G.NotifyPendingSave;
+        }
+
+        public void Apply()
+        {
+            G.ReplaceByMark(".\\resource\\webkit.css", "LoginLogoVisibility",
+                G.MainWindow.LoginDialog_ShowSteamLogo.IsChecked == true ? "" : "visibility: hidden;");
+            G.ReplaceByMark(".\\resource\\webkit.css", "LoginLogoInvert",
+                G.MainWindow.LoginDialog_InvertSteamLogo.IsChecked == true ? "filter:invert(1);" : "");
+        }
+
+        public void Save(ref JObject SavedData)
+        {
+            JObject LoginDialogSettings = new JObject();
+            LoginDialogSettings["ShowLogo"] = G.MainWindow.LoginDialog_ShowSteamLogo.IsChecked;
+            LoginDialogSettings["InvertLogo"] = G.MainWindow.LoginDialog_InvertSteamLogo.IsChecked;
+            SavedData["LoginDialog"] = LoginDialogSettings;
+        }
+
+        public void Load(JObject SavedData)
+        {
+            JObject LoginDialogSettings = SavedData["LoginDialog"] as JObject;
+            if (LoginDialogSettings == null)
+            {
+                return;
+            }
+            if (LoginDialogSettings["ShowLogo"] != null)
+                G.MainWindow.LoginDialog_ShowSteamLogo.IsChecked = (bool)LoginDialogSettings["ShowLogo"];
+            if (LoginDialogSettings["InvertLogo"] != null)
+                G.MainWindow.LoginDialog_InvertSteamLogo.IsChecked = (bool)LoginDialogSettings["InvertLogo"];
+        }
+
+        public void Reset()
+        {
+            G.MainWindow.LoginDialog_ShowSteamLogo.IsChecked = false;
+            G.MainWindow.LoginDialog_InvertSteamLogo.IsChecked = false;
+        }
     }
 }

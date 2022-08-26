@@ -16,6 +16,8 @@
     <sys:String x:Key="MainContentBrightness">主内容不透明度:</sys:String>
     <sys:String x:Key="WebPageBrightness">网页背景亮度:</sys:String>
     <sys:String x:Key="ShowLibraryWindowDivider">显示库和主内容的分隔线</sys:String>
+    <sys:String x:Key="ShowSteamLogo">显示SteamLogo</sys:String>
+    <sys:String x:Key="InvertSteamLogoColor">反转SteamLogo颜色</sys:String>
     <sys:String x:Key="TransparentGameDetailsBackground">透明化游戏详情页面</sys:String>
     <sys:String x:Key="FontsSetting">字体设置</sys:String>
     <sys:String x:Key="Apply">应用</sys:String>
@@ -50,4 +52,5 @@
     <sys:String x:Key="SaveBeforeExit">退出之前是否要保存？</sys:String>
     <sys:String x:Key="DoNotOverrideSkin">不要用覆盖旧版本的方式更新皮肤！删掉旧皮肤然后重新安装.</sys:String>
     <sys:String x:Key="FormatNotJPG">图片后缀为JPG但是内容不匹配，请记住修改后缀并不能改变图片的真实类型!</sys:String>
+    <sys:String x:Key="LoginDialog">新登录界面</sys:String>
 </ResourceDictionary>

@@ -50,4 +50,7 @@
     <sys:String x:Key="SaveBeforeExit">Save before exit?</sys:String>
     <sys:String x:Key="DoNotOverrideSkin">DO NOT update skin by override the old version! Delete the old skin and reinstall.</sys:String>
     <sys:String x:Key="FormatNotJPG">The extension of image is jpg but actually not. Please remember change the extension doesn't modify the real format of the image!</sys:String>
+    <sys:String x:Key="LoginDialog">New Login Dialog</sys:String>
+    <sys:String x:Key="ShowSteamLogo">Show Steam Logo</sys:String>
+    <sys:String x:Key="InvertSteamLogoColor">Invert Color of Steam Logo</sys:String>
 </ResourceDictionary>
