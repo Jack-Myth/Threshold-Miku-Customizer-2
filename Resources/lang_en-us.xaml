@@ -53,4 +53,6 @@
     <sys:String x:Key="LoginDialog">New Login Dialog</sys:String>
     <sys:String x:Key="ShowSteamLogo">Show Steam Logo</sys:String>
     <sys:String x:Key="InvertSteamLogoColor">Invert Color of Steam Logo</sys:String>
+    <sys:String x:Key="CreateSteamLauncherShortcut">Create Steam Launcher Shortcut</sys:String>
+    <sys:String x:Key="NotifyForSteamLauncher">Please use SteamLauncher to open Steam. Otherwise the skin may not work as expected.</sys:String>
 </ResourceDictionary>

@@ -92,13 +92,15 @@
                     </StackPanel>
                 </Grid>
             </GroupBox>
+            <CheckBox x:Name="Checkbox_CreateShortcut" Content="{StaticResource CreateSteamLauncherShortcut}" HorizontalAlignment="Right" Margin="0,5,10,0" IsChecked="True"/>
             <Grid Margin="0,5,0,0" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="149*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="157*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" x:Name="SaveSettings" Content="{StaticResource SaveSettings}" Margin="10,0,5,0" Click="SaveSettings_Click"/>
-                <Button Grid.Column="1" x:Name="LoadSettings" Content="{StaticResource LoadSettings}" Margin="5,0,10,0" Click="LoadSettings_Click"/>
+                <Button Grid.Column="0" x:Name="SaveSettings" Content="{StaticResource SaveSettings}" Margin="10,0,5,0" Click="SaveSettings_Click" Grid.ColumnSpan="2"/>
+                <Button Grid.Column="2" x:Name="LoadSettings" Content="{StaticResource LoadSettings}" Margin="5,0,10,0" Click="LoadSettings_Click"/>
             </Grid>
             <TextBlock Margin="0,5,10,0" TextWrapping="Wrap" Text="Designed By JackMyth" FontSize="14" TextDecorations="Underline" TextAlignment="Right" Foreground="#FF0006FF" FontStyle="Italic" HorizontalAlignment="Right" MouseDown="TextBlock_MouseDown" Cursor="Hand"/>
             <Grid Margin="0,5,0,10">

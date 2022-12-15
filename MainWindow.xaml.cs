@@ -1,10 +1,12 @@
 ﻿using Microsoft.SqlServer.Server;
+using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,7 +25,38 @@ namespace Threshold_Miku_Customizer_2
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-  
+
+    [ComImport]
+    [Guid("00021401-0000-0000-C000-000000000046")]
+    internal class ShellLink
+    {
+    }
+
+    [ComImport]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("000214F9-0000-0000-C000-000000000046")]
+    internal interface IShellLink
+    {
+        void GetPath([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszFile, int cchMaxPath, out IntPtr pfd, int fFlags);
+        void GetIDList(out IntPtr ppidl);
+        void SetIDList(IntPtr pidl);
+        void GetDescription([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszName, int cchMaxName);
+        void SetDescription([MarshalAs(UnmanagedType.LPWStr)] string pszName);
+        void GetWorkingDirectory([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszDir, int cchMaxPath);
+        void SetWorkingDirectory([MarshalAs(UnmanagedType.LPWStr)] string pszDir);
+        void GetArguments([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszArgs, int cchMaxPath);
+        void SetArguments([MarshalAs(UnmanagedType.LPWStr)] string pszArgs);
+        void GetHotkey(out short pwHotkey);
+        void SetHotkey(short wHotkey);
+        void GetShowCmd(out int piShowCmd);
+        void SetShowCmd(int iShowCmd);
+        void GetIconLocation([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszIconPath, int cchIconPath, out int piIcon);
+        void SetIconLocation([MarshalAs(UnmanagedType.LPWStr)] string pszIconPath, int iIcon);
+        void SetRelativePath([MarshalAs(UnmanagedType.LPWStr)] string pszPathRel, int dwReserved);
+        void Resolve(IntPtr hwnd, int fFlags);
+        void SetPath([MarshalAs(UnmanagedType.LPWStr)] string pszFile);
+    }
+
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -157,6 +190,25 @@ namespace Threshold_Miku_Customizer_2
             {
                 Modifier.Apply();
             }
+            if ((bool)this.Checkbox_CreateShortcut.IsChecked)
+            {
+                RegistryKey SteamInfo = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Valve\\Steam", false);
+                string SteamExe = "";
+                if(SteamInfo != null)
+                {
+                    SteamExe = SteamInfo.GetValue("SteamExe", "") as string;
+                }
+                string deskDir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
+                IShellLink link = (IShellLink)new ShellLink();
+                link.SetPath(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/SteamLauncher.exe");
+                link.SetWorkingDirectory(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
+                link.SetIconLocation(SteamExe, 1);
+                IPersistFile file = (IPersistFile)link;
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                file.Save(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\Steam.lnk", false);
+            }
+            MessageBox.Show(Application.Current.FindResource("NotifyForSteamLauncher").ToString());
             MessageBox.Show(Application.Current.FindResource("ApplySucceed").ToString());
         }
 
