@@ -1,32 +1,47 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.IO;
-using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace SteamLauncher4ThresholdMiku
 {
     internal class Program
     {
+        [DllImport("kernel32")]
+        static extern bool AllocConsole();
+
+        [DllImport("kernel32")]
+        static extern bool FreeConsole();
+
         static string SteamExe, SteamPath, SkinName;
         static void Main(string[] args)
         {
-            
             RegistryKey SteamInfo = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Valve\\Steam", false);
             if (SteamInfo == null)
             {
-                MessageBox.Show("You must open Steam at least once!", "No Steam Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AllocConsole();
+                Console.WriteLine("No Steam Found! You must open Steam at least once!");
+                Console.ReadKey();
+                FreeConsole();
                 return;
             }
             SteamExe = SteamInfo.GetValue("SteamExe", "") as string;
             if (SteamExe==null || SteamExe == "")
             {
-                MessageBox.Show("You must open Steam at least once!", "Can't found SteamExe!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AllocConsole();
+                Console.WriteLine("Can't found SteamExe! You must open Steam at least once!");
+                Console.ReadKey();
+                FreeConsole();
                 return;
             }
             SteamPath = SteamInfo.GetValue("SteamPath", "") as string;
             if (SteamPath == null || SteamPath == "")
             {
-                MessageBox.Show("You must open Steam at least once!", "Can't found SteamPath!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AllocConsole();
+                Console.WriteLine("Can't found SteamPath! You must open Steam at least once!");
+                Console.ReadKey();
+                FreeConsole();
                 return;
             }
             SkinName = SteamInfo.GetValue("SkinV5", "") as string;
@@ -36,6 +51,17 @@ namespace SteamLauncher4ThresholdMiku
                 return;
             }
             SteamInfo.Close();
+            RegistryKey AutoStartInfo = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            if(AutoStartInfo!=null)
+            {
+                string SteamAutoStart = AutoStartInfo.GetValue("Steam") as string;
+                if (SteamAutoStart != null)
+                {
+                    AutoStartInfo.SetValue("Steam", 
+                        string.Format("\"{0}\" -silent", System.Reflection.Assembly.GetExecutingAssembly().Location));
+                }
+                AutoStartInfo.Close();
+            }
             string sourceCSS = SteamPath + "/skins/" + SkinName + "/resource/webkit.css";
             if(!File.Exists(sourceCSS))
             {
